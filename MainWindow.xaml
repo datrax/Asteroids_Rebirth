@@ -1,0 +1,18 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Asteroids_Rebirth.MainWindow"
+        Title="Asteroids-Rebirth" Height="480" Width="640" KeyDown="Keys" Background="#FF008F88" MouseDoubleClick="test" SizeChanged="sizechangerefresh" ResizeMode="NoResize" Loaded="construct">
+    <Grid Margin="0,0,2,-1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+
+        </Grid.RowDefinitions>
+
+        <Viewbox x:Name="myViewBox" Grid.Row="1"   >
+
+            <Canvas x:Name="canvas" Width="76" Height="54" Background="#FFBBBBBB"/>
+        </Viewbox>
+    </Grid>
+</Window>
