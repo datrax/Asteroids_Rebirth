@@ -41,7 +41,7 @@ namespace Asteroids_Rebirth
         {
 
            
-            game.control();
+           // game.control();
 
             //Activates foolscreen mod
             if (Keyboard.IsKeyDown(Key.Enter) && Keyboard.Modifiers == ModifierKeys.Alt)

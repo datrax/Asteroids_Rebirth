@@ -35,20 +35,9 @@ namespace Asteroids_Rebirth
             public void control()
             {
      
-                if (Keyboard.IsKeyDown(Key.A))
-                {
-                    //if (spaceship.oldangle != spaceship.currentAngle)
+          
 
-                    spaceship.currentAngle -= 18;
-
-                }
-                if (Keyboard.IsKeyDown(Key.D))
-                {
-               //     if (spaceship.oldangle != spaceship.currentAngle)
-
-                    spaceship.currentAngle += 18;
-
-                }
+                
               
             }
             public void Loop()

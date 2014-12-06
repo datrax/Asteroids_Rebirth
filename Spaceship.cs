@@ -22,33 +22,41 @@ namespace Asteroids_Rebirth
         public double speedX { get; set; }
         public double speedY { get; set; }
 
-        public double currentAngle { get; set; }
+        public double Angle { get; set; }
         public double THRUST_MAGNUTIDE { get; set; }
         public double FRICTION_MAGNITUDE { get; set; }
       
         public Canvas canvas { get; set; }
-
+        ImageSource[] sprites = new ImageSource[3];
+        int framenumber = 0;
         Image image;
 
-        void LoadPicture()
+        void LoadPicture(int height)
         {
+           
            image = new Image
             {
-                Width = 3.53,
-                Height = 7,
+               
+                Height = height,
+                Width = 159 / 315.0 * height,
                 //Name = "BodyName",
                 Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\F5S4.png")),
             };
         }
         public Spaceship(Canvas canvas,double x,double y)
         {
+            
             THRUST_MAGNUTIDE = 0.018;
-            FRICTION_MAGNITUDE = 0.005;
+            FRICTION_MAGNITUDE = 0.015;
             this.canvas = canvas;
             this.positionX = x;
             this.positionY = y;
-            currentAngle = 0;
-            LoadPicture();
+            Angle = 0;
+           sprites[0] = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\1.png"));
+            sprites[1] = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\2.png"));
+            sprites[2] = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\3.png"));
+            LoadPicture(12);
+           // image.Source = sprites[0];
             canvas.Children.Add(image);
             draw();
         }
@@ -58,22 +66,36 @@ namespace Asteroids_Rebirth
             Canvas.SetTop(image, positionY);
             Canvas.SetLeft(image, positionX);
             RotateTransform rotateTransform1 =
-             new RotateTransform(currentAngle);
-            rotateTransform1.CenterX = 1.76;
-            rotateTransform1.CenterY = 3.5;
+             new RotateTransform(Angle);
+            rotateTransform1.CenterX = image.Width/2.0;
+            rotateTransform1.CenterY = image.Height/2.0;
             image.RenderTransform = rotateTransform1;
         }
         public void physics()
         {
 
-            double directionX = Math.Sin(Math.PI * currentAngle / 180.0);
-            double directionY = -Math.Cos(Math.PI * currentAngle / 180.0);
+            double directionX = Math.Sin(Math.PI * Angle / 180.0);
+            double directionY = -Math.Cos(Math.PI * Angle / 180.0);
             double ax = 0, ay = 0;
             if(Keyboard.IsKeyDown(Key.W))
             {
                 ax += THRUST_MAGNUTIDE * directionX;
                 ay += THRUST_MAGNUTIDE * directionY;
+                FireSprite();
             }
+            else
+            {
+                OrdinarSprite();
+            }
+                  if (Keyboard.IsKeyDown(Key.A))
+                {
+                    //if (spaceship.oldangle != spaceship.currentAngle)
+
+                    Angle -= 8;
+
+                }
+                if (Keyboard.IsKeyDown(Key.D))
+                    Angle += 8;
             ax -= FRICTION_MAGNITUDE * speedX;
             ay -= FRICTION_MAGNITUDE * speedY;
 
@@ -96,6 +118,18 @@ namespace Asteroids_Rebirth
                  if (positionY <= -10)
                      positionY += (canvas.Height + 10);
              
+        }
+
+        private void OrdinarSprite()
+        {
+            image.Source = sprites[0];
+        }
+
+        private void FireSprite()
+        {
+
+            image.Source = sprites[(framenumber++)%2+1];
+            
         }
 
 
