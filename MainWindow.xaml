@@ -12,7 +12,7 @@
 
         <Viewbox x:Name="myViewBox" Grid.Row="1"   >
 
-            <Canvas x:Name="canvas" Width="76" Height="54" Background="#FFBBBBBB"/>
+            <Canvas x:Name="canvas" Width="76" Height="54" Background="#FFBBBBBB" MouseRightButtonDown="mouseclick"/>
         </Viewbox>
     </Grid>
 </Window>

@@ -26,7 +26,8 @@ namespace Asteroids_Rebirth
     }
     public partial class MainWindow : Window
     {
-        Spaceship spaceship;
+       // Spaceship spaceship;
+        Game game;
         bool FoolScreen = false;
         public MainWindow()
         {
@@ -39,25 +40,8 @@ namespace Asteroids_Rebirth
         private void Keys(object sender, KeyEventArgs e)
         {
 
-            if (Keyboard.IsKeyDown(Key.W)){
-                spaceship.moveUp();
-
-            }
-            if (Keyboard.IsKeyDown(Key.S))
-            {
-                spaceship.moveDown();
-            }
-            if (Keyboard.IsKeyDown(Key.A))
-            {
-                spaceship.angle -= 3;
-
-            }
-            if (Keyboard.IsKeyDown(Key.D))
-            {
-                spaceship.angle += 3;
-
-            }
-            spaceship.draw();
+           
+            game.control();
 
             //Activates foolscreen mod
             if (Keyboard.IsKeyDown(Key.Enter) && Keyboard.Modifiers == ModifierKeys.Alt)
@@ -105,8 +89,15 @@ namespace Asteroids_Rebirth
         {
             myViewBox.StretchDirection = StretchDirection.Both;
             myViewBox.Stretch = Stretch.Fill;
-            spaceship = new Spaceship(canvas, 20, 10);
-
+           game = new Game(canvas);
+            game.InitGame();
+            game.Loop();
         }
+
+        private void mouseclick(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show(e.GetPosition(canvas).X.ToString()+" "+ e.GetPosition(canvas).Y.ToString());
+        }
+
     }
 }
