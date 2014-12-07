@@ -26,23 +26,29 @@ namespace Asteroids_Rebirth
     }
     public partial class MainWindow : Window
     {
-       // Spaceship spaceship;
+        // Spaceship spaceship;
         Game game;
         bool FoolScreen = false;
         public MainWindow()
         {
 
             InitializeComponent();
+            if (MessageBox.Show("W - speed up\nA - turn left\nD - turn right\nF -be blown up\nR - Respawn\n Do u want to run the game in foolscreen mod?", "Welcome", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                FoolScreen = true;
+                this.WindowStyle = WindowStyle.None;
+                this.WindowState = WindowState.Maximized;
+            }
+            else
+            {
 
-
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.WindowState = WindowState.Normal;
+            }
         }
 
         private void Keys(object sender, KeyEventArgs e)
         {
-
-           
-           // game.control();
-
             //Activates foolscreen mod
             if (Keyboard.IsKeyDown(Key.Enter) && Keyboard.Modifiers == ModifierKeys.Alt)
             {
@@ -59,25 +65,24 @@ namespace Asteroids_Rebirth
                 }
                 FoolScreen = !FoolScreen;
             }
-          
+
         }
 
         private void Scailing(object sender, double ScaleWidth, double ScaleHeight)
         {
 
-                Canvas c = sender as Canvas;
-                ScaleTransform st = new ScaleTransform();
-                c.RenderTransform = st;
-                    st.ScaleX *= ScaleWidth;
-                    st.ScaleY *= ScaleHeight;
-                    return;
+            Canvas c = sender as Canvas;
+            ScaleTransform st = new ScaleTransform();
+            c.RenderTransform = st;
+            st.ScaleX *= ScaleWidth;
+            st.ScaleY *= ScaleHeight;
+            return;
 
         }
 
         private void test(object sender, MouseButtonEventArgs e)
         {
             //MessageBox.Show(canvas.ActualWidth + " " + myViewBox.ActualWidth + " " + this.Width + " " + this.ActualHeight);
-            MessageBox.Show(Math.Sin(Math.PI * (-34) / 180.0).ToString());
         }
 
         private void sizechangerefresh(object sender, SizeChangedEventArgs e)
@@ -89,14 +94,14 @@ namespace Asteroids_Rebirth
         {
             myViewBox.StretchDirection = StretchDirection.Both;
             myViewBox.Stretch = Stretch.Fill;
-           game = new Game(canvas);
+            game = new Game(canvas);
             game.InitGame();
             game.Loop();
         }
 
         private void mouseclick(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show(e.GetPosition(canvas).X.ToString()+" "+ e.GetPosition(canvas).Y.ToString());
+            MessageBox.Show(e.GetPosition(canvas).X.ToString() + " " + e.GetPosition(canvas).Y.ToString());
         }
 
     }

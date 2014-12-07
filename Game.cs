@@ -28,29 +28,23 @@ namespace Asteroids_Rebirth
             {
                 this.canvas = canvas;
             }
-            public void InitGame(){
-
-               spaceship = new Spaceship(canvas, 20, 10);
-            }
-            public void control()
+            public void InitGame()
             {
-     
-          
 
-                
-              
+                spaceship = new Spaceship(canvas, 20, 10);
             }
+
             public void Loop()
             {
                 DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
                 dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-                dispatcherTimer.Interval = new TimeSpan(0, 0, 0,0,16);
+                dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
                 dispatcherTimer.Start();
             }
             private void dispatcherTimer_Tick(object sender, EventArgs e)
             {
                 spaceship.physics();
-               spaceship.draw();
+                spaceship.draw();
             }
         }
     }
