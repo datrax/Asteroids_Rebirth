@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +34,17 @@ namespace Asteroids_Rebirth
         {
 
             InitializeComponent();
-            if (MessageBox.Show("W - speed up\nA - turn left\nD - turn right\nF -be blown up\nR - Respawn\n Do u want to run the game in foolscreen mod?", "Welcome", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+
+
+            ImageBrush myBrush = new ImageBrush();
+            System.Windows.Controls.Image image = new System.Windows.Controls.Image();
+            image.Source = new BitmapImage(
+               new Uri(Environment.CurrentDirectory + @"\back.jpg"));
+            myBrush.ImageSource = image.Source;
+            grid.Background = myBrush; 
+
+
+          /*  if (MessageBox.Show("W - speed up\nA - turn left\nD - turn right\nF -be blown up\nR - Respawn\n Do u want to run the game in foolscreen mod?", "Welcome", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 FoolScreen = true;
                 this.WindowStyle = WindowStyle.None;
@@ -44,7 +55,7 @@ namespace Asteroids_Rebirth
 
                 this.WindowStyle = WindowStyle.SingleBorderWindow;
                 this.WindowState = WindowState.Normal;
-            }
+            }*/
         }
 
         private void Keys(object sender, KeyEventArgs e)
@@ -101,7 +112,9 @@ namespace Asteroids_Rebirth
 
         private void mouseclick(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show(e.GetPosition(canvas).X.ToString() + " " + e.GetPosition(canvas).Y.ToString());
+            //MessageBox.Show(e.GetPosition(canvas).X.ToString() + " " + e.GetPosition(canvas).Y.ToString());
+            System.Diagnostics.Debug.WriteLine( (e.GetPosition(canvas).X-20).ToString());
+            System.Diagnostics.Debug.WriteLine((e.GetPosition(canvas).Y-10).ToString());
         }
 
     }

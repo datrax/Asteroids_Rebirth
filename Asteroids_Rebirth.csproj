@@ -54,8 +54,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Asteroids.cs" />
+    <Compile Include="Colision.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Spaceship.cs" />
+    <Compile Include="SpriteAnimator.cs" />
     <Compile Include="SpriteLoader.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
