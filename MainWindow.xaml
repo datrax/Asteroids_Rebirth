@@ -19,7 +19,7 @@
 
         <Grid x:Name="Record" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634"/>
 
-        <Grid HorizontalAlignment="Left" Height="58" Grid.RowSpan="2" VerticalAlignment="Top" Width="322" d:IsHidden="True">
+        <Grid HorizontalAlignment="Left" Height="58" Grid.RowSpan="2" VerticalAlignment="Top" Width="322">
             <Label x:Name="Information" Content="Score: 0  Lives:3" HorizontalAlignment="Left" Margin="10,10,0,-6" Foreground="YellowGreen" VerticalAlignment="Top" Height="54" Width="302" FontSize="20" Background="{x:Null}"/>
         </Grid>
 

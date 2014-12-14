@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Drawing;
 using System.IO;
+using System.Globalization;
 
 namespace Asteroids_Rebirth
 {
@@ -50,9 +51,14 @@ namespace Asteroids_Rebirth
             StreamReader re = new StreamReader(path);
             while (re.Peek() > -1)
             {
-                colisionpoints.Add(new System.Windows.Point(double.Parse(re.ReadLine()) + positionX, double.Parse(re.ReadLine()) + positionY));
+                double x = double.Parse(re.ReadLine(), CultureInfo.InvariantCulture);
+                x += positionX;
+                double y = double.Parse(re.ReadLine(), CultureInfo.InvariantCulture);
+                y += positionY;
+                System.Windows.Point point = new System.Windows.Point(x, y);
+                colisionpoints.Add(point);
             }
-
+            re.Close();
             Polygon.Points = colisionpoints;
         }
         public void move(double delX, double delY)

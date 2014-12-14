@@ -1,7 +1,6 @@
 c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\bin\Debug\Asteroids_Rebirth.exe.config
 c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\bin\Debug\Asteroids_Rebirth.exe
 c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\bin\Debug\Asteroids_Rebirth.pdb
-c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Debug\Asteroids_Rebirth.csprojResolveAssemblyReference.cache
 c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Debug\MainWindow.baml
 c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Debug\MainWindow.g.cs
 c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Debug\App.g.cs
@@ -11,3 +10,4 @@ c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroid
 c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Debug\Asteroids_Rebirth.csproj.GenerateResource.Cache
 c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Debug\Asteroids_Rebirth.exe
 c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Debug\Asteroids_Rebirth.pdb
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Debug\Asteroids_Rebirth.csprojResolveAssemblyReference.cache

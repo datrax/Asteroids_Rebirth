@@ -60,6 +60,7 @@ namespace Asteroids_Rebirth
                 dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
                 dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
                 dispatcherTimer.Start();
+               
             }
             public void Pause()
             {

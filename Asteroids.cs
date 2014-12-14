@@ -28,8 +28,8 @@ namespace Asteroids_Rebirth
 
     class Asteroids:IDrawing
     {
-        static TextureKeeper BigRed =new TextureKeeper("Big_red.png");
-        static TextureKeeper BigGray =new TextureKeeper("Big_gray.png");
+        static TextureKeeper BigRed = new TextureKeeper(Environment.CurrentDirectory + @"\Big_red.png");
+        static TextureKeeper BigGray = new TextureKeeper(Environment.CurrentDirectory + @"\Big_gray.png");
         public double positionX { get; set; }
         public double positionY { get; set; }
         public double speedX { get; set; }
@@ -62,22 +62,22 @@ namespace Asteroids_Rebirth
             if (size == 20)
             {
                 if (shape == 0)
-                    colision = new Colision(centerX, centerY, positionX, positionY, "big.txt");
+                    colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\big.txt");
                 if (shape == 1)
-                    colision = new Colision(centerX, centerY, positionX, positionY, "big1.txt");
+                    colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\big1.txt");
                 if (shape == 2)
-                    colision = new Colision(centerX, centerY, positionX, positionY, "big2.txt");
+                    colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\big2.txt");
             }
             if (size==7){
                  if (shape == 0)
-                    colision = new Colision(centerX, centerY, positionX, positionY, "middle.txt");
+                     colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\middle.txt");
                 if (shape == 1)
-                    colision = new Colision(centerX, centerY, positionX, positionY, "middle1.txt");
+                    colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\middle1.txt");
                 if (shape == 2)
-                    colision = new Colision(centerX, centerY, positionX, positionY, "middle2.txt");
+                    colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\middle2.txt");
 
             }
-        //   canvas.Children.Add(colision.Polygon);
+         //  canvas.Children.Add(colision.Polygon);
         }
         public Asteroids(Canvas canvas, double x, double y,int size,int color,int wave)
         {

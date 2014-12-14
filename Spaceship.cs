@@ -55,13 +55,14 @@ namespace Asteroids_Rebirth
         {
 
             // Add Polygon to the page
-            colision = new Colision(centerX, centerY, positionX, positionY, "shipvertexes.txt");
+            colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory +  @"\shipvertexes.txt");
 
             // canvas.Children.Add(colision.Polygon);
 
         }
         public Spaceship(Canvas canvas, double x, double y)
         {
+            livingtimer = new System.Windows.Threading.DispatcherTimer();
             laserTime = DateTime.Now;
             laser = new Line(){
                Stroke = System.Windows.Media.Brushes.IndianRed,
@@ -81,10 +82,14 @@ namespace Asteroids_Rebirth
             thrusters = new SpriteAnimator(Environment.CurrentDirectory + @"\sprite.png", 159, 315, 1, 3, Sprite);
             explosion = new SpriteAnimator(Environment.CurrentDirectory + @"\spritesheet1.png", 100, 100, 9, 9, Sprite);
             alive = true;
-            transparent = false;
+            transparent = true;
             centerX = Sprite.Width / 2.0;
             centerY = Sprite.Height / 2.0;
             CreateAPolygon();
+            transparent = true;
+            livingtimer.Interval = new TimeSpan(0, 0, 0, 5);
+            livingtimer.Tick += new EventHandler(stoptransparent);
+            livingtimer.Start();
             draw();
 
         }
@@ -206,7 +211,7 @@ namespace Asteroids_Rebirth
             Sprite.Source = null;
             Angle = 0;
             explosion.Animation(40, false, 10);
-            livingtimer = new System.Windows.Threading.DispatcherTimer();
+            
             livingtimer.Tick += new EventHandler(rebirth);
             livingtimer.Interval = new TimeSpan(0, 0, 0, 4);
             livingtimer.Start();
@@ -220,7 +225,7 @@ namespace Asteroids_Rebirth
             positionX = 38;
             positionY = 27;
             Angle = 0;
-            colision = new Colision(centerX, centerY, positionX, positionY, "shipvertexes.txt");
+            colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\shipvertexes.txt");
             livingtimer.Stop();
             livingtimer.Tick -= new EventHandler(rebirth);
             transparent = true;
