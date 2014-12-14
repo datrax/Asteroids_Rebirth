@@ -79,7 +79,7 @@ namespace Asteroids_Rebirth
             }
         //   canvas.Children.Add(colision.Polygon);
         }
-        public Asteroids(Canvas canvas, double x, double y,int size,int color)
+        public Asteroids(Canvas canvas, double x, double y,int size,int color,int wave)
         {
             this.canvas = canvas;
             this.positionX = x;
@@ -91,6 +91,7 @@ namespace Asteroids_Rebirth
                 speed = 2;
             if (size == 7)
                 speed = 4;
+            speed += wave;
             System.Threading.Thread.Sleep(1);
             Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
             speedX =random.Next(-speed,speed)/10.0;

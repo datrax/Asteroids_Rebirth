@@ -30,36 +30,53 @@ namespace Asteroids_Rebirth
         // Spaceship spaceship;
         Game game;
         bool FoolScreen = false;
+        public bool InGame { get; set; }
         public MainWindow()
         {
 
             InitializeComponent();
-
-
+            InGame = false;
+            myViewBox.Visibility = Visibility.Hidden;
             ImageBrush myBrush = new ImageBrush();
             System.Windows.Controls.Image image = new System.Windows.Controls.Image();
             image.Source = new BitmapImage(
+               new Uri(Environment.CurrentDirectory + @"\menu.png"));
+            myBrush.ImageSource = image.Source;
+            menu.Background = myBrush;
+
+            myBrush = new ImageBrush();
+            image = new System.Windows.Controls.Image();
+            image.Source = new BitmapImage(
                new Uri(Environment.CurrentDirectory + @"\back.jpg"));
             myBrush.ImageSource = image.Source;
-            grid.Background = myBrush; 
+            grid.Background = myBrush;
 
-
-          /*  if (MessageBox.Show("W - speed up\nA - turn left\nD - turn right\nF -be blown up\nR - Respawn\n Do u want to run the game in foolscreen mod?", "Welcome", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-            {
-                FoolScreen = true;
-                this.WindowStyle = WindowStyle.None;
-                this.WindowState = WindowState.Maximized;
-            }
-            else
-            {
-
-                this.WindowStyle = WindowStyle.SingleBorderWindow;
-                this.WindowState = WindowState.Normal;
-            }*/
         }
 
         private void Keys(object sender, KeyEventArgs e)
         {
+            if(InGame){
+            if (Keyboard.IsKeyDown(Key.Escape))
+            {
+                game.Pause();
+                if (MessageBox.Show("Would you like to quit?", "Pause", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    menu.Visibility = Visibility.Visible;
+                    myViewBox.Visibility = Visibility.Hidden;
+
+                    FoolScreen = false;
+                    this.WindowStyle = WindowStyle.SingleBorderWindow;
+                    this.WindowState = WindowState.Normal;
+
+                    InGame = false;
+                }
+                else
+                {
+                    game.Continue();
+                }
+
+ 
+            }
             //Activates foolscreen mod
             if (Keyboard.IsKeyDown(Key.Enter) && Keyboard.Modifiers == ModifierKeys.Alt)
             {
@@ -76,45 +93,47 @@ namespace Asteroids_Rebirth
                 }
                 FoolScreen = !FoolScreen;
             }
+            }
 
         }
 
-        private void Scailing(object sender, double ScaleWidth, double ScaleHeight)
-        {
 
-            Canvas c = sender as Canvas;
-            ScaleTransform st = new ScaleTransform();
-            c.RenderTransform = st;
-            st.ScaleX *= ScaleWidth;
-            st.ScaleY *= ScaleHeight;
-            return;
-
-        }
-
-        private void test(object sender, MouseButtonEventArgs e)
-        {
-            //MessageBox.Show(canvas.ActualWidth + " " + myViewBox.ActualWidth + " " + this.Width + " " + this.ActualHeight);
-        }
-
-        private void sizechangerefresh(object sender, SizeChangedEventArgs e)
-        {
-            //Scailing(canvas, this.ActualWidth / 497.0, this.Height / 320.0);
-        }
-
-        private void construct(object sender, RoutedEventArgs e)
-        {
-            myViewBox.StretchDirection = StretchDirection.Both;
-            myViewBox.Stretch = Stretch.Fill;
-            game = new Game(canvas);
-            game.InitGame();
-            game.Loop();
-        }
 
         private void mouseclick(object sender, MouseButtonEventArgs e)
         {
-            //MessageBox.Show(e.GetPosition(canvas).X.ToString() + " " + e.GetPosition(canvas).Y.ToString());
-            System.Diagnostics.Debug.WriteLine( (e.GetPosition(canvas).X-20).ToString());
-            System.Diagnostics.Debug.WriteLine((e.GetPosition(canvas).Y-10).ToString());
+            System.Diagnostics.Debug.WriteLine((e.GetPosition(canvas).X - 20).ToString());
+            System.Diagnostics.Debug.WriteLine((e.GetPosition(canvas).Y - 10).ToString());
+        }
+
+        private void StartGame(object sender, RoutedEventArgs e)
+        {
+            InGame = true;
+
+            
+            myViewBox.StretchDirection = StretchDirection.Both;
+            myViewBox.Stretch = Stretch.Fill;
+            game = new Game(canvas,Information,menu,this);
+            game.InitGame(0);
+            if (MessageBox.Show("Would you like to start game in fullscreen mode?\n" + Environment.NewLine + "Keep in mind :While playing you can always change fullscreen mode by pressing ALT+ENTER ", "Pause", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                FoolScreen = true;
+                this.WindowStyle = WindowStyle.None;
+                this.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                FoolScreen = false;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.WindowState = WindowState.Normal;
+            }
+            menu.Visibility = Visibility.Hidden;
+            myViewBox.Visibility = Visibility.Visible;
+            game.Loop();
+        }
+
+        private void Exit(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
     }

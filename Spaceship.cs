@@ -17,12 +17,17 @@ namespace Asteroids_Rebirth
 {
     class Spaceship : IDrawing
     {
-      //  private bool vectorgraphic = false;
+        public int lives { get; set; }
+        //  private bool vectorgraphic = false;
         public double positionX { get; set; }
         public double positionY { get; set; }
         public double speedX { get; set; }
         public double speedY { get; set; }
 
+        public bool laserIsEnabled{ get; set; }
+        public Line laser { get; set; }
+
+        private DateTime laserTime { get; set; }
         public double centerY { get; set; }
         public double centerX { get; set; }
         public double Angle { get; set; }
@@ -30,6 +35,7 @@ namespace Asteroids_Rebirth
         public double FRICTION_MAGNITUDE { get; set; }
         public Colision colision;
         public bool alive { get; set; }
+        public bool transparent { get; set; }
         public Canvas canvas { get; set; }
         SpriteAnimator explosion;
         SpriteAnimator thrusters;
@@ -47,25 +53,21 @@ namespace Asteroids_Rebirth
         }
         private void CreateAPolygon()
         {
-            
+
             // Add Polygon to the page
-            colision = new Colision(centerX,centerY,positionX,positionY,"shipvertexes.txt");
-           
-           // canvas.Children.Add(colision.Polygon);
+            colision = new Colision(centerX, centerY, positionX, positionY, "shipvertexes.txt");
 
-           
-
-           /* RotateTransform rotateTransform1 = new RotateTransform(90,this.positionX+centerX,this.positionY+centerY);
-
-            yellowPolygon.RenderTransform = rotateTransform1;
-            System.Diagnostics.Debug.WriteLine(colision[0]);*/
+            // canvas.Children.Add(colision.Polygon);
 
         }
         public Spaceship(Canvas canvas, double x, double y)
         {
-
-            
-            
+            laserTime = DateTime.Now;
+            laser = new Line(){
+               Stroke = System.Windows.Media.Brushes.IndianRed,
+               StrokeThickness=0.1
+            };
+            lives = 3;
             THRUST_MAGNUTIDE = 0.018;
             FRICTION_MAGNITUDE = 0.015;
             this.canvas = canvas;
@@ -74,9 +76,12 @@ namespace Asteroids_Rebirth
             Angle = 0;
             LoadPicture(12);
             canvas.Children.Add(Sprite);
+            canvas.Children.Add(laser);
+            canvas.Children.Add(new Line());
             thrusters = new SpriteAnimator(Environment.CurrentDirectory + @"\sprite.png", 159, 315, 1, 3, Sprite);
             explosion = new SpriteAnimator(Environment.CurrentDirectory + @"\spritesheet1.png", 100, 100, 9, 9, Sprite);
             alive = true;
+            transparent = false;
             centerX = Sprite.Width / 2.0;
             centerY = Sprite.Height / 2.0;
             CreateAPolygon();
@@ -85,7 +90,12 @@ namespace Asteroids_Rebirth
         }
         public void draw()
         {
-
+            Random random=new Random();
+            if (transparent)
+                Sprite.Opacity =random.Next(4,9)/10.0;
+            else
+                Sprite.Opacity = 1;
+             
             Canvas.SetTop(Sprite, positionY);
             Canvas.SetLeft(Sprite, positionX);
             RotateTransform rotateTransform1 =
@@ -93,8 +103,11 @@ namespace Asteroids_Rebirth
             rotateTransform1.CenterX = centerX;
             rotateTransform1.CenterY = centerY;
             Sprite.RenderTransform = rotateTransform1;
+            if (laserIsEnabled)
+                laser.Opacity = 1;
+            else
+                laser.Opacity = 0;
 
-            
         }
         public void physics()
         {
@@ -106,11 +119,13 @@ namespace Asteroids_Rebirth
             if (alive)
             {
 
+
+                
                 if (Keyboard.IsKeyDown(Key.W))
                 {
                     ax += THRUST_MAGNUTIDE * directionX;
                     ay += THRUST_MAGNUTIDE * directionY;
-                    thrusters.Animation(40,true,0);
+                    thrusters.Animation(40, true, 0);
                 }
                 else
                 {
@@ -129,23 +144,21 @@ namespace Asteroids_Rebirth
                     if (Angle > 360) Angle -= 360;
                     colision.rotate(Math.PI * (8) / 180.0);
                 }
-                if (Keyboard.IsKeyDown(Key.F))
+
+                if (Keyboard.IsKeyDown(Key.Space) && (DateTime.Now - laserTime).Milliseconds > 200)
                 {
-              
-
-                    return;
-
+                    laserTime = DateTime.Now;
+                    laserIsEnabled = true;
+                    laser.X1 = this.colision.colisionpoints[5].X;
+                    laser.Y1 = this.colision.colisionpoints[5].Y;
+                    laser.X2 = this.colision.colisionpoints[5].X + directionX * 500;
+                    laser.Y2 = this.colision.colisionpoints[5].Y + directionY * 500;
                 }
-            }
-            if (Keyboard.IsKeyDown(Key.R))
-            {
-                alive = true;
-                positionX = 38;
-                positionY = 27;
-                Angle = 0;
-                colision = new Colision(centerX, centerY, positionX, positionY, "shipvertexes.txt");
+                else
+                    laserIsEnabled = false;
 
             }
+
             ax -= FRICTION_MAGNITUDE * speedX;
             ay -= FRICTION_MAGNITUDE * speedY;
 
@@ -157,10 +170,11 @@ namespace Asteroids_Rebirth
 
             colision.move(speedX, speedY);
 
-            if (positionX >= canvas.Width + 10){
+            if (positionX >= canvas.Width + 10)
+            {
                 positionX -= (canvas.Width + 10 + 5);
-                colision.move(-(canvas.Width+10+5), 0);
-        }
+                colision.move(-(canvas.Width + 10 + 5), 0);
+            }
             else
                 if (positionX <= -10)
                 {
@@ -171,29 +185,59 @@ namespace Asteroids_Rebirth
             if (positionY >= canvas.Height + 10)
             {
                 positionY -= (canvas.Height + 10 + 7);
-                colision.move(0,-(canvas.Height + 10+7));
+                colision.move(0, -(canvas.Height + 10 + 7));
             }
             else
                 if (positionY <= -10)
                 {
                     positionY += (canvas.Height + 10);
-                    colision.move(0,(canvas.Height + 10));
+                    colision.move(0, (canvas.Height + 10));
                 }
 
         }
+        System.Windows.Threading.DispatcherTimer livingtimer;
 
 
-
-
-
-
-        internal void explose()
+        public void destroy()
         {
+            laserIsEnabled = false;
             thrusters.stop();
             alive = false;
             Sprite.Source = null;
             Angle = 0;
             explosion.Animation(40, false, 10);
+            livingtimer = new System.Windows.Threading.DispatcherTimer();
+            livingtimer.Tick += new EventHandler(rebirth);
+            livingtimer.Interval = new TimeSpan(0, 0, 0, 4);
+            livingtimer.Start();
         }
+
+                public void rebirth(object sender, EventArgs e)
+        {
+
+            alive = true;
+            lives -= 1;
+            positionX = 38;
+            positionY = 27;
+            Angle = 0;
+            colision = new Colision(centerX, centerY, positionX, positionY, "shipvertexes.txt");
+            livingtimer.Stop();
+            livingtimer.Tick -= new EventHandler(rebirth);
+            transparent = true;
+            livingtimer.Interval = new TimeSpan(0, 0, 0, 5);
+            livingtimer.Tick += new EventHandler(stoptransparent);
+            livingtimer.Start();
+        }
+
+        
+        private void stoptransparent(object sender, EventArgs e)
+        {
+            
+
+            transparent = false;
+            livingtimer.Stop();
+            livingtimer.Tick -= new EventHandler(stoptransparent);
+        }
+
     }
 }
