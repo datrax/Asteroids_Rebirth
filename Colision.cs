@@ -26,7 +26,7 @@ namespace Asteroids_Rebirth
         public double centerY;
         public double positionX;
         public double positionY;
-        public Colision(double centerx,double centery,double positionx,double positiony,string path)
+        public Colision(double centerx,double centery,double positionx,double positiony,double size,string path)
         {
             positionX = positionx;
             positionY = positiony;
@@ -51,11 +51,12 @@ namespace Asteroids_Rebirth
             StreamReader re = new StreamReader(path);
             while (re.Peek() > -1)
             {
-                double x = double.Parse(re.ReadLine(), CultureInfo.InvariantCulture);
+                double x = double.Parse(re.ReadLine(), CultureInfo.InvariantCulture)*size/20.0;
                 x += positionX;
-                double y = double.Parse(re.ReadLine(), CultureInfo.InvariantCulture);
+                double y = double.Parse(re.ReadLine(), CultureInfo.InvariantCulture) * size / 20.0;
                 y += positionY;
                 System.Windows.Point point = new System.Windows.Point(x, y);
+
                 colisionpoints.Add(point);
             }
             re.Close();

@@ -51,7 +51,7 @@ namespace Asteroids_Rebirth
                 asteroids.Add(new Asteroids(canvas, 50, 10, 20, 1, wave));
                 asteroids.Add(new Asteroids(canvas, 50, 40, 20, 2, wave));
                 asteroids.Add(new Asteroids(canvas, 0, 40, 20, 1, wave));
-                spaceship = new Spaceship(canvas, 38, 27);
+                spaceship = new Spaceship(canvas, 38, 27,12);
             }
 
             public void Loop()
@@ -128,15 +128,33 @@ namespace Asteroids_Rebirth
             {
                 double x = asteroids[k].positionX;
                 double y = asteroids[k].positionY;
-                int color = asteroids[k].color;
-                if (asteroids[k].size == 20)
+               // int color = asteroids[k].color;
+                if (asteroids[k].size <= 20&&asteroids[k].size>=6)
                 {
-                    asteroids.Add(new Asteroids(canvas, x, y, 7, color, wave));
-                    asteroids.Add(new Asteroids(canvas, x, y, 7, color, wave));
-                    asteroids.Add(new Asteroids(canvas, x, y, 7, color, wave));
+                    AddSmallAsteroids(x,y,asteroids[k].size, asteroids[k].color);
+                //    asteroids.Add(new Asteroids(canvas, x, y, 5, color, wave));
+                 //   asteroids.Add(new Asteroids(canvas, x, y, 5, color, wave));
+                 //   asteroids.Add(new Asteroids(canvas, x, y, 5, color, wave));
                 }
                 canvas.Children.Remove(asteroids[k].Sprite);
                 asteroids.RemoveAt(k);
+            }
+
+            private void AddSmallAsteroids(double posx,double posy,int size, int color)
+            {
+                Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+                 int amount ;
+                if(size==20)
+                 amount = random.Next(2, 5);
+                else
+                    amount = random.Next(2, 3);
+                for (int i = 0; i < amount; i++)
+                {
+                    int newsize=size/amount;
+                    newsize += random.Next(0, 1);
+                    System.Threading.Thread.Sleep(1);
+                    asteroids.Add(new Asteroids(canvas, posx, posy, newsize, color, wave));
+                }
             }
             private int colision(Point[] shipVertexes, List<Asteroids> asteroids)
             {

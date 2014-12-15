@@ -36,12 +36,13 @@ namespace Asteroids_Rebirth
         public Colision colision;
         public bool alive { get; set; }
         public bool transparent { get; set; }
+        public int size;
         public Canvas canvas { get; set; }
         SpriteAnimator explosion;
         SpriteAnimator thrusters;
         System.Windows.Controls.Image Sprite;
 
-        void LoadPicture(int height)
+        void LoadPicture(double height)
         {
 
             Sprite = new System.Windows.Controls.Image
@@ -51,16 +52,16 @@ namespace Asteroids_Rebirth
                  Width = 159 / 315.0 * height,
              };
         }
-        private void CreateAPolygon()
+        private void CreateAPolygon(double size)
         {
-
+            double scalesize = size / 12.0 * 20.0;
             // Add Polygon to the page
-            colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory +  @"\shipvertexes.txt");
+            colision = new Colision(centerX, centerY, positionX, positionY,scalesize, Environment.CurrentDirectory + @"\shipvertexes.txt");
 
             // canvas.Children.Add(colision.Polygon);
 
         }
-        public Spaceship(Canvas canvas, double x, double y)
+        public Spaceship(Canvas canvas, double x, double y,double size)
         {
             livingtimer = new System.Windows.Threading.DispatcherTimer();
             laserTime = DateTime.Now;
@@ -68,6 +69,7 @@ namespace Asteroids_Rebirth
                Stroke = System.Windows.Media.Brushes.IndianRed,
                StrokeThickness=0.1
             };
+            
             lives = 3;
             THRUST_MAGNUTIDE = 0.018;
             FRICTION_MAGNITUDE = 0.015;
@@ -75,7 +77,7 @@ namespace Asteroids_Rebirth
             this.positionX = x;
             this.positionY = y;
             Angle = 0;
-            LoadPicture(12);
+            LoadPicture(size);
             canvas.Children.Add(Sprite);
             canvas.Children.Add(laser);
             canvas.Children.Add(new Line());
@@ -85,7 +87,7 @@ namespace Asteroids_Rebirth
             transparent = true;
             centerX = Sprite.Width / 2.0;
             centerY = Sprite.Height / 2.0;
-            CreateAPolygon();
+            CreateAPolygon(size);
             transparent = true;
             livingtimer.Interval = new TimeSpan(0, 0, 0, 5);
             livingtimer.Tick += new EventHandler(stoptransparent);
@@ -225,7 +227,7 @@ namespace Asteroids_Rebirth
             positionX = 38;
             positionY = 27;
             Angle = 0;
-            colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\shipvertexes.txt");
+            colision = new Colision(centerX, centerY, positionX, positionY,20, Environment.CurrentDirectory + @"\shipvertexes.txt");
             livingtimer.Stop();
             livingtimer.Tick -= new EventHandler(rebirth);
             transparent = true;

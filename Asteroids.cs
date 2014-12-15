@@ -59,23 +59,14 @@ namespace Asteroids_Rebirth
         {
 
             // Add Polygon to the page
-            if (size == 20)
+
             {
                 if (shape == 0)
-                    colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\big.txt");
+                    colision = new Colision(centerX, centerY, positionX, positionY,size, Environment.CurrentDirectory + @"\big.txt");
                 if (shape == 1)
-                    colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\big1.txt");
+                    colision = new Colision(centerX, centerY, positionX, positionY, size, Environment.CurrentDirectory + @"\big1.txt");
                 if (shape == 2)
-                    colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\big2.txt");
-            }
-            if (size==7){
-                 if (shape == 0)
-                     colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\middle.txt");
-                if (shape == 1)
-                    colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\middle1.txt");
-                if (shape == 2)
-                    colision = new Colision(centerX, centerY, positionX, positionY, Environment.CurrentDirectory + @"\middle2.txt");
-
+                    colision = new Colision(centerX, centerY, positionX, positionY, size, Environment.CurrentDirectory + @"\big2.txt");
             }
          //  canvas.Children.Add(colision.Polygon);
         }
@@ -87,15 +78,15 @@ namespace Asteroids_Rebirth
             this.size = size;
             this.color = color;
             int speed = 0;
-            if (size == 20)
-                speed = 2;
-            if (size == 7)
-                speed = 4;
+            speed = (int)Math.Round(-1 / 9.0 * size + 38 / 9.0);
             speed += wave;
             System.Threading.Thread.Sleep(1);
             Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
-            speedX =random.Next(-speed,speed)/10.0;
+            speedX = random.Next(-speed, speed) / 10.0;
+            System.Threading.Thread.Sleep(1);
             speedY = random.Next(-speed, speed) / 10.0;
+            if (speedX == 0) speedX = 0.1;
+            if (speedY == 0) speedY = 0.1;
             Angle = 0;
             speedAngle = random.Next(-2, 2);
             LoadPicture(size);
@@ -136,28 +127,28 @@ namespace Asteroids_Rebirth
             Angle += speedAngle;
            colision.rotate(Math.PI * (speedAngle) / 180.0);
 
-            if (positionX >= canvas.Width + 10)
+            if (colision.centerX-size/2.0 >= canvas.Width+3 )
             {
-                positionX -= (canvas.Width + 10 + 5);
-                colision.move(-(canvas.Width + 10 + 5), 0);
+                positionX -= (canvas.Width + size+3);
+                colision.move(-(canvas.Width + size+3), 0);
             }
             else
-                if (positionX <= -10)
+                if (colision.centerX + size/2 <= -3)
                 {
-                    positionX += (canvas.Width + 10);
-                    colision.move((canvas.Width + 10), 0);
+                    positionX += (canvas.Width +size);
+                    colision.move((canvas.Width+size), 0);
                 }
 
-            if (positionY >= canvas.Height + 10)
+            if (colision.centerY - size / 2.0 >= canvas.Height + 3)
             {
-                positionY -= (canvas.Height + 10 + 7);
-                colision.move(0, -(canvas.Height + 10 + 7));
+                positionY -= (canvas.Height + size + 3);
+                colision.move(0,-(canvas.Height + size + 3));
             }
             else
-                if (positionY <= -10)
+                if (colision.centerY + size / 2 <= -3)
                 {
-                    positionY += (canvas.Height + 10);
-                    colision.move(0, (canvas.Height + 10));
+                    positionY += (canvas.Height + size);
+                    colision.move(0,(canvas.Height + size));
                 }
         }
     }
