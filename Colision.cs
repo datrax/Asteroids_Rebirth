@@ -30,23 +30,16 @@ namespace Asteroids_Rebirth
         {
             positionX = positionx;
             positionY = positiony;
-
             centerX = centerx+positionX;
             centerY = centery+positionY;
-            // Create a blue and a black Brush
             SolidColorBrush yellowBrush = new SolidColorBrush();
             yellowBrush.Color = Colors.Yellow;
             SolidColorBrush blackBrush = new SolidColorBrush();
             blackBrush.Color = Colors.Black;
-
             Polygon = new Polygon();
-            // Create a Polygon
             Polygon.Stroke = blackBrush;
             Polygon.Fill = yellowBrush;
             Polygon.StrokeThickness = 0.2;
-
-            // Create a collection of points for a polygon
-
             colisionpoints = new PointCollection();
             StreamReader re = new StreamReader(path);
             while (re.Peek() > -1)

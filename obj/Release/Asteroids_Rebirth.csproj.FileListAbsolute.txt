@@ -1,0 +1,14 @@
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\bin\Release\Asteroids_Rebirth.exe.config
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\bin\Release\Asteroids_Rebirth.exe
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\bin\Release\Asteroids_Rebirth.pdb
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\MainWindow.baml
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\Records.baml
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\MainWindow.g.cs
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\Records.g.cs
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\App.g.cs
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\Asteroids_Rebirth_MarkupCompile.cache
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\Asteroids_Rebirth.g.resources
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\Asteroids_Rebirth.Properties.Resources.resources
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\Asteroids_Rebirth.csproj.GenerateResource.Cache
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\Asteroids_Rebirth.exe
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\Asteroids_Rebirth.pdb

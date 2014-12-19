@@ -18,8 +18,7 @@ namespace Asteroids_Rebirth
     public class SpriteLoader
     {
 
-       public List<ImageSource> images;
-
+        public List<ImageSource> images { get; set; }
 
         public SpriteLoader(string path, int sizeX, int sizeY, int rows, int columns)
         {

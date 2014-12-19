@@ -19,9 +19,9 @@ namespace Asteroids_Rebirth
     public class SpriteAnimator : SpriteLoader
     {
 
-        System.Windows.Threading.DispatcherTimer dispatcherTimer;
-        int frameNumber;
-        System.Windows.Controls.Image img;
+        System.Windows.Threading.DispatcherTimer dispatcherTimer { get; set; }
+        int frameNumber { get; set; }
+        System.Windows.Controls.Image img { get; set; }
         public SpriteAnimator(string path, int sizeX, int sizeY, int rows, int columns, System.Windows.Controls.Image img)
             : base(path, sizeX, sizeY, rows, columns)
         {
