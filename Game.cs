@@ -21,21 +21,19 @@ namespace Asteroids_Rebirth
 
         public class Game
         {
-            DispatcherTimer dispatcherTimer;
+            DispatcherTimer loopTimer;
             Spaceship spaceship;
             List<Asteroids> asteroids;
-            Label information;
-            Grid menu;
+            Label scoreInformation;
             MainWindow window;
             int score;
             int wave;
             private Canvas canvas;
 
-            public Game(Canvas canvas, Label information, Grid menu, MainWindow window)
+            public Game(Canvas canvas, MainWindow window)
             {
                 this.window = window;
-                this.menu = menu;
-                this.information = information;
+                this.scoreInformation = window.Information;
                 this.canvas = canvas;
                 wave = 0;
                 score = 0;
@@ -46,48 +44,48 @@ namespace Asteroids_Rebirth
             {
                 canvas.Children.Clear();
                 asteroids = new List<Asteroids>();
-
                 asteroids.Add(new Asteroids(canvas, 0, 0, 20, 2, wave));
                 asteroids.Add(new Asteroids(canvas, 50, 10, 20, 1, wave));
                 asteroids.Add(new Asteroids(canvas, 50, 40, 20, 2, wave));
                 asteroids.Add(new Asteroids(canvas, 0, 40, 20, 1, wave));
-                spaceship = new Spaceship(canvas, 38, 27,12);
+                spaceship = new Spaceship(canvas, 38, 27,10);
             }
 
             public void Loop()
             {
-                dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-                dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-                dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
-                dispatcherTimer.Start();
+                loopTimer = new System.Windows.Threading.DispatcherTimer();
+                loopTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+                loopTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+                loopTimer.Start();
                
             }
             public void Pause()
             {
-                dispatcherTimer.Stop();
+                loopTimer.Stop();
 
             }
             public void Continue()
             {
-                dispatcherTimer.Start();
+                loopTimer.Start();
             }
 
             private void dispatcherTimer_Tick(object sender, EventArgs e)
             {
-                //   if (spaceship != null)
-                information.Content = "Score: " + score.ToString() + " Lives: " + spaceship.lives + " Wave: " + wave;
+                scoreInformation.Content = "Score: " + score.ToString() + " Lives: " + spaceship.lives + " Wave: " + wave;
                 if (spaceship.lives == 0)
                 {
                     this.Pause();
-                    menu.Visibility = Visibility.Visible;
-                    window.myViewBox.Visibility = Visibility.Hidden;
+                    window.Record.Visibility = Visibility.Visible;
+                    window.ScoreText.Content = "Your Score: " + score.ToString();
+                    window.nameOfPlayer.Focus();
+                    window.Information.Visibility = Visibility.Hidden;
+                    window.gameViewBox.Visibility = Visibility.Hidden;
                     window.WindowStyle = WindowStyle.SingleBorderWindow;
                     window.WindowState = WindowState.Normal;
                 }
                 spaceship.physics();
                 if (asteroids.Count == 0)
-                {
-                    MessageBox.Show("You've sucessfully completed " + wave.ToString() + " wave Accept you're ready for the next one");
+                {              
                     canvas.Children.Clear();
                     spaceship.lives = 3;
                     InitGame(++wave);
@@ -100,7 +98,6 @@ namespace Asteroids_Rebirth
                     if (hitAsteroid >= 0)
                     {
                         spaceship.destroy();
-
                         split(hitAsteroid);
 
                     };
@@ -119,22 +116,14 @@ namespace Asteroids_Rebirth
                 for (int i = 0; i < asteroids.Count; i++)
                     asteroids[i].draw();
 
-
-
-
-
             }
             private void split(int k)
             {
                 double x = asteroids[k].positionX;
                 double y = asteroids[k].positionY;
-               // int color = asteroids[k].color;
                 if (asteroids[k].size <= 20&&asteroids[k].size>=6)
                 {
                     AddSmallAsteroids(x,y,asteroids[k].size, asteroids[k].color);
-                //    asteroids.Add(new Asteroids(canvas, x, y, 5, color, wave));
-                 //   asteroids.Add(new Asteroids(canvas, x, y, 5, color, wave));
-                 //   asteroids.Add(new Asteroids(canvas, x, y, 5, color, wave));
                 }
                 canvas.Children.Remove(asteroids[k].Sprite);
                 asteroids.RemoveAt(k);

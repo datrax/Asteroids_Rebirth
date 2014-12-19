@@ -28,8 +28,8 @@ namespace Asteroids_Rebirth
 
     class Asteroids:IDrawing
     {
-        static TextureKeeper BigRed = new TextureKeeper(Environment.CurrentDirectory + @"\Big_red.png");
-        static TextureKeeper BigGray = new TextureKeeper(Environment.CurrentDirectory + @"\Big_gray.png");
+        static TextureKeeper Red = new TextureKeeper(Environment.CurrentDirectory + @"\Big_red.png");
+        static TextureKeeper Gray = new TextureKeeper(Environment.CurrentDirectory + @"\Big_gray.png");
         public double positionX { get; set; }
         public double positionY { get; set; }
         public double speedX { get; set; }
@@ -40,26 +40,22 @@ namespace Asteroids_Rebirth
         public double speedAngle { get; set; }
         public Canvas canvas { get; set; }
 
-        public int size;//1-small,2-medium 3 - big
-        public int color;//1-gray 2-red 3-yellow
-        public Colision colision;
-        public System.Windows.Controls.Image Sprite;
+        public int size { get; set; }
+        public int color { get; set; }//1-gray 2-red 
+        public Colision colision { get; set; }
+        public System.Windows.Controls.Image Sprite { get; set; }
 
         void LoadPicture(int height)
         {
 
             Sprite = new System.Windows.Controls.Image
             {
-
                 Height = height,
                 Width = 320 / 240.0 * height,
             };
         }
         private void CreateAPolygon(int shape)
         {
-
-            // Add Polygon to the page
-
             {
                 if (shape == 0)
                     colision = new Colision(centerX, centerY, positionX, positionY,size, Environment.CurrentDirectory + @"\big.txt");
@@ -78,7 +74,7 @@ namespace Asteroids_Rebirth
             this.size = size;
             this.color = color;
             int speed = 0;
-            speed = (int)Math.Round(-1 / 9.0 * size + 38 / 9.0);
+            speed = (int)Math.Round(-1 / 14.0 * size + 38 / 14.0);
             speed += wave;
             System.Threading.Thread.Sleep(1);
             Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
@@ -92,13 +88,10 @@ namespace Asteroids_Rebirth
             LoadPicture(size);
             int shape = random.Next(0, 2);
             if (color == 1)
-                Sprite.Source = BigGray.Textures.images[shape];
+                Sprite.Source = Gray.Textures.images[shape];
             if (color == 2)
-                Sprite.Source = BigRed.Textures.images[shape];
-           /* Sprite.Source = BigRed.Textures.images[2];
-            speedX = 0;
-            speedY = 0;
-            speedAngle = 0;*/
+                Sprite.Source = Red.Textures.images[shape];
+
                 canvas.Children.Add(Sprite);
                 centerX = Sprite.Width / 2.0;
                 centerY = Sprite.Height / 2.0;
@@ -121,12 +114,9 @@ namespace Asteroids_Rebirth
         {
             positionX += speedX;
             positionY += speedY;
-
             colision.move(speedX, speedY);
-
             Angle += speedAngle;
            colision.rotate(Math.PI * (speedAngle) / 180.0);
-
             if (colision.centerX-size/2.0 >= canvas.Width+3 )
             {
                 positionX -= (canvas.Width + size+3);

@@ -11,3 +11,5 @@ c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroid
 c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Debug\Asteroids_Rebirth.exe
 c:\users\datrax\documents\visual studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Debug\Asteroids_Rebirth.pdb
 C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Debug\Asteroids_Rebirth.csprojResolveAssemblyReference.cache
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Debug\Records.baml
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Debug\Records.g.cs

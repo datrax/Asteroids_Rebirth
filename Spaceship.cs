@@ -31,23 +31,23 @@ namespace Asteroids_Rebirth
         public double centerY { get; set; }
         public double centerX { get; set; }
         public double Angle { get; set; }
-        public double THRUST_MAGNUTIDE { get; set; }
-        public double FRICTION_MAGNITUDE { get; set; }
+        public const double speedAngle =6;
+        private const double THRUST_MAGNUTIDE = 0.018;
+        private const double FRICTION_MAGNITUDE = 0.015;
         public Colision colision;
         public bool alive { get; set; }
         public bool transparent { get; set; }
-        public int size;
+        public double size { get; set; }
         public Canvas canvas { get; set; }
-        SpriteAnimator explosion;
-        SpriteAnimator thrusters;
-        System.Windows.Controls.Image Sprite;
+        SpriteAnimator explosion { get; set; }
+        SpriteAnimator thrusters { get; set; }
+        System.Windows.Controls.Image Sprite { get; set; }
 
         void LoadPicture(double height)
         {
 
             Sprite = new System.Windows.Controls.Image
              {
-
                  Height = height,
                  Width = 159 / 315.0 * height,
              };
@@ -55,10 +55,9 @@ namespace Asteroids_Rebirth
         private void CreateAPolygon(double size)
         {
             double scalesize = size / 12.0 * 20.0;
-            // Add Polygon to the page
             colision = new Colision(centerX, centerY, positionX, positionY,scalesize, Environment.CurrentDirectory + @"\shipvertexes.txt");
 
-            // canvas.Children.Add(colision.Polygon);
+        //    canvas.Children.Add(colision.Polygon);
 
         }
         public Spaceship(Canvas canvas, double x, double y,double size)
@@ -71,12 +70,12 @@ namespace Asteroids_Rebirth
             };
             
             lives = 3;
-            THRUST_MAGNUTIDE = 0.018;
-            FRICTION_MAGNITUDE = 0.015;
+            
             this.canvas = canvas;
             this.positionX = x;
             this.positionY = y;
             Angle = 0;
+            this.size = size;
             LoadPicture(size);
             canvas.Children.Add(Sprite);
             canvas.Children.Add(laser);
@@ -125,10 +124,8 @@ namespace Asteroids_Rebirth
 
             if (alive)
             {
-
-
-                
-                if (Keyboard.IsKeyDown(Key.W))
+       
+                if (Keyboard.IsKeyDown(Key.W)||Keyboard.IsKeyDown(Key.Up))
                 {
                     ax += THRUST_MAGNUTIDE * directionX;
                     ay += THRUST_MAGNUTIDE * directionY;
@@ -138,67 +135,67 @@ namespace Asteroids_Rebirth
                 {
                     thrusters.stop();
                 }
-                if (Keyboard.IsKeyDown(Key.A))
-                {
+                ax -= FRICTION_MAGNITUDE * speedX;
+                ay -= FRICTION_MAGNITUDE * speedY;
 
-                    Angle -= 8;
+                speedX += ax;
+                speedY += ay;
+
+                positionX += speedX;
+                positionY += speedY;
+
+                colision.move(speedX, speedY);
+                if (Keyboard.IsKeyDown(Key.A)||Keyboard.IsKeyDown(Key.Left))
+                {
+                    Angle -= speedAngle;
                     if (Angle < 360) Angle += 360;
-                    colision.rotate(Math.PI * (-8) / 180.0);
+                    colision.rotate(Math.PI * (-speedAngle) / 180.0);
                 }
-                if (Keyboard.IsKeyDown(Key.D))
+                if (Keyboard.IsKeyDown(Key.D)||Keyboard.IsKeyDown(Key.Right))
                 {
-                    Angle += 8;
+                    Angle += speedAngle;
                     if (Angle > 360) Angle -= 360;
-                    colision.rotate(Math.PI * (8) / 180.0);
+                    colision.rotate(Math.PI * (speedAngle) / 180.0);
                 }
-
-                if (Keyboard.IsKeyDown(Key.Space) && (DateTime.Now - laserTime).Milliseconds > 200)
+                if (Keyboard.IsKeyDown(Key.F))
+                    lives = 0; if (Keyboard.IsKeyDown(Key.Space) && (DateTime.Now - laserTime).Milliseconds > 200)
                 {
                     laserTime = DateTime.Now;
                     laserIsEnabled = true;
                     laser.X1 = this.colision.colisionpoints[5].X;
                     laser.Y1 = this.colision.colisionpoints[5].Y;
-                    laser.X2 = this.colision.colisionpoints[5].X + directionX * 500;
-                    laser.Y2 = this.colision.colisionpoints[5].Y + directionY * 500;
+                    laser.X2 = this.colision.colisionpoints[5].X + directionX * 100;
+                    laser.Y2 = this.colision.colisionpoints[5].Y + directionY * 100;
                 }
                 else
                     laserIsEnabled = false;
 
             }
 
-            ax -= FRICTION_MAGNITUDE * speedX;
-            ay -= FRICTION_MAGNITUDE * speedY;
 
-            speedX += ax;
-            speedY += ay;
 
-            positionX += speedX;
-            positionY += speedY;
-
-            colision.move(speedX, speedY);
-
-            if (positionX >= canvas.Width + 10)
+            if (colision.centerX - size / 2.0 >= canvas.Width + 3)
             {
-                positionX -= (canvas.Width + 10 + 5);
-                colision.move(-(canvas.Width + 10 + 5), 0);
+                positionX -= (canvas.Width + size + 3);
+                colision.move(-(canvas.Width + size + 3), 0);
             }
             else
-                if (positionX <= -10)
+                if (colision.centerX + size / 2 <= -3)
                 {
-                    positionX += (canvas.Width + 10);
-                    colision.move((canvas.Width + 10), 0);
+                    positionX += (canvas.Width + size);
+                    colision.move((canvas.Width + size), 0);
                 }
 
-            if (positionY >= canvas.Height + 10)
+            if (colision.centerY - size / 2.0 >= canvas.Height + 3)
             {
-                positionY -= (canvas.Height + 10 + 7);
-                colision.move(0, -(canvas.Height + 10 + 7));
+                positionY -= (canvas.Height + size + 3);
+                colision.move(0, -(canvas.Height + size + 3));
             }
             else
-                if (positionY <= -10)
+                if (colision.centerY + size / 2 <= -3)
                 {
-                    positionY += (canvas.Height + 10);
-                    colision.move(0, (canvas.Height + 10));
+                    positionY += (canvas.Height + size);
+                    colision.move(0, (canvas.Height + size));
                 }
 
         }
@@ -212,8 +209,7 @@ namespace Asteroids_Rebirth
             alive = false;
             Sprite.Source = null;
             Angle = 0;
-            explosion.Animation(40, false, 10);
-            
+            explosion.Animation(40, false, 10);          
             livingtimer.Tick += new EventHandler(rebirth);
             livingtimer.Interval = new TimeSpan(0, 0, 0, 4);
             livingtimer.Start();
@@ -221,7 +217,6 @@ namespace Asteroids_Rebirth
 
                 public void rebirth(object sender, EventArgs e)
         {
-
             alive = true;
             lives -= 1;
             positionX = 38;
@@ -238,9 +233,7 @@ namespace Asteroids_Rebirth
 
         
         private void stoptransparent(object sender, EventArgs e)
-        {
-            
-
+        {         
             transparent = false;
             livingtimer.Stop();
             livingtimer.Tick -= new EventHandler(stoptransparent);

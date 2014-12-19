@@ -1,8 +1,10 @@
 ﻿<Window
+    
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Asteroids_Rebirth.MainWindow"
-        Title="Asteroids-Rebirth" Height="480" Width="640" Background="#FF008F88"  ResizeMode="NoResize" KeyDown="Keys">
+    Icon="logo.ico"
+        Title="Asteroids-Rebirth" Height="480" Width="640" Background="#FF008F88"  ResizeMode="NoResize" KeyDown="Keys" Loaded="SetDefault">
     <Window.Resources>
         <Style x:Key="BlackAndWhite">
             <Setter Property="Control.FontFamily" Value="Arial" />
@@ -17,21 +19,33 @@
 
         </Grid.RowDefinitions>
 
-        <Grid x:Name="Record" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634"/>
+        <Grid x:Name="Record" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634">
+            <Button Content="No" HorizontalAlignment="Left" Margin="216,298,0,0" Style="{StaticResource BlackAndWhite}" Foreground="YellowGreen" VerticalAlignment="Top" Width="70" Click="Cancel" Height="22" Background="{x:Null}"/>
+            <Button x:Name="YesButton" Content="Yes" HorizontalAlignment="Left" Margin="394,298,0,0" Style="{StaticResource BlackAndWhite}" Foreground="YellowGreen" VerticalAlignment="Top" Width="70" Click="AddRecord" Height="22" Background="{x:Null}" IsEnabled="False" Opacity="0.3"/>
+            <TextBox x:Name="nameOfPlayer"  HorizontalAlignment="Left" BorderThickness="3" Style="{StaticResource BlackAndWhite}" Height="32" Margin="273,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" Background="{x:Null}" Foreground="YellowGreen" TextChanged="NameChanged" FontSize="14">
+                <TextBox.BorderBrush>
+                    <LinearGradientBrush EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
+                        <GradientStop Color="#FFABADB3" Offset="0.05"/>
+                        <GradientStop Color="#FFE2E3EA" Offset="0.07"/>
+                        <GradientStop Color="#FF85A430" Offset="1"/>
+                    </LinearGradientBrush>
+                </TextBox.BorderBrush>
 
-        <Grid HorizontalAlignment="Left" Height="58" Grid.RowSpan="2" VerticalAlignment="Top" Width="322">
-            <Label x:Name="Information" Content="Score: 0  Lives:3" HorizontalAlignment="Left" Margin="10,10,0,-6" Foreground="YellowGreen" VerticalAlignment="Top" Height="54" Width="302" FontSize="20" Background="{x:Null}"/>
+            </TextBox>
+            <Label x:Name="ScoreText" Content="Your score:" HorizontalAlignment="Left" Margin="240,70,0,0" VerticalAlignment="Top" Height="98" Width="322" FontSize="30" Foreground="YellowGreen"/>
+            <Label Content="Your name:" HorizontalAlignment="Left" Margin="137,196,0,0" VerticalAlignment="Top" Height="32" Width="101" Foreground="YellowGreen" FontSize="16"/>
+            <Label Content="Do you want to add your record?" HorizontalAlignment="Left" Margin="240,252,0,0" VerticalAlignment="Top" Width="185" Foreground="YellowGreen"/>
         </Grid>
-
-        <Grid x:Name="menu" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634" d:IsHidden="True">
-            <Button Content="Start game" HorizontalAlignment="Left" Margin="495,152,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="StartGame"/>
-            <Button Content="Records" HorizontalAlignment="Left" Margin="495,198,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}"/>
-            <Button Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="495,238,0,0" Style="{StaticResource BlackAndWhite}" Click="Exit"/>
-        </Grid>
-
-        <Viewbox x:Name="myViewBox" Grid.Row="1" d:IsHidden="True"   >
+        <Viewbox x:Name="gameViewBox" Grid.Row="1" OpacityMask="#FF9C8080"   >
 
             <Canvas x:Name="canvas" Width="75" Height="54" MouseRightButtonDown="mouseclick"/>
         </Viewbox>
+        <Label x:Name="Information" Content="Score: 0  Lives:3" HorizontalAlignment="Left" Margin="10,10,0,0" Foreground="YellowGreen" VerticalAlignment="Top" Height="54" Width="302" FontSize="20" Background="{x:Null}" Grid.RowSpan="2"/>
+
+        <Grid x:Name="menu" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634" d:IsHidden="True">
+            <Button Content="Start game" HorizontalAlignment="Left" Margin="495,152,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="StartGame"/>
+            <Button Content="Records" HorizontalAlignment="Left" Margin="495,198,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="ShowRecords"/>
+            <Button Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="495,238,0,0" Style="{StaticResource BlackAndWhite}" Click="Exit"/>
+        </Grid>
     </Grid>
 </Window>
