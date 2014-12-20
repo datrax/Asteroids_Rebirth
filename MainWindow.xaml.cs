@@ -39,7 +39,7 @@ namespace Asteroids_Rebirth
         {
 
             InitializeComponent();
-      
+
         }
 
         private void Keys(object sender, KeyEventArgs e)
@@ -103,7 +103,7 @@ namespace Asteroids_Rebirth
 
             gameViewBox.StretchDirection = StretchDirection.Both;
             gameViewBox.Stretch = Stretch.Fill;
-            game = new Game(canvas,  this);
+            game = new Game(canvas, this);
             game.InitGame(0);
             if (MessageBox.Show("Would you like to start game in fullscreen mode?\n" + Environment.NewLine + "Keep in mind :While playing you can always change fullscreen mode by pressing ALT+ENTER ", "", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
@@ -148,7 +148,7 @@ namespace Asteroids_Rebirth
             BinaryFormatter formatter = new BinaryFormatter();
             int score = int.Parse(Information.Content.ToString().Substring(Information.Content.ToString().IndexOf(':') + 1, Information.Content.ToString().IndexOf('L') - Information.Content.ToString().IndexOf(':') - 2));
             record obj = new record(nameOfPlayer.Text, score, DateTime.Now);
-            using (var fStream = new FileStream("file.dat", FileMode.Append, FileAccess.Write, FileShare.None))
+            using (var fStream = new FileStream(Environment.CurrentDirectory + @"\Resources\file.dat", FileMode.Append, FileAccess.Write, FileShare.None))
             {
                 formatter.Serialize(fStream, obj);
             }
@@ -161,20 +161,21 @@ namespace Asteroids_Rebirth
         private void NameChanged(object sender, TextChangedEventArgs e)
         {
             nameOfPlayer.Focus();
-            nameOfPlayer.SelectionStart = nameOfPlayer.Text.Length;
-           
+
+
             if (nameOfPlayer.Text.Length > 0)
             {
                 if (nameOfPlayer.Text.Length > 15)
                 {
                     nameOfPlayer.Text = nameOfPlayer.Text.Substring(0, 15);
+                    nameOfPlayer.SelectionStart = nameOfPlayer.Text.Length;
                 }
                 YesButton.IsEnabled = true;
                 YesButton.Opacity = 1;
             }
             else
             {
-               
+
                 YesButton.IsEnabled = false;
                 YesButton.Opacity = 0.3;
             }
@@ -187,8 +188,7 @@ namespace Asteroids_Rebirth
             Record.Visibility = Visibility.Hidden;
             ImageBrush myBrush = new ImageBrush();
             System.Windows.Controls.Image image = new System.Windows.Controls.Image();
-            image.Source = new BitmapImage(
-               new Uri(Environment.CurrentDirectory + @"\menu.png"));
+            image.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Resources\Textures\menu.png"));
             myBrush.ImageSource = image.Source;
             menu.Background = myBrush;
 
@@ -196,17 +196,22 @@ namespace Asteroids_Rebirth
             myBrush = new ImageBrush();
             image = new System.Windows.Controls.Image();
             image.Source = new BitmapImage(
-               new Uri(Environment.CurrentDirectory + @"\back.jpg"));
+               new Uri(Environment.CurrentDirectory + @"\Resources\Textures\back.jpg"));
             myBrush.ImageSource = image.Source;
             canvas.Background = myBrush;
 
             myBrush = new ImageBrush();
             image.Source = new BitmapImage(
-              new Uri(Environment.CurrentDirectory + @"\rec_back.jpg"));
+              new Uri(Environment.CurrentDirectory + @"\Resources\Textures\rec_back.jpg"));
             myBrush.ImageSource = image.Source;
             Record.Background = myBrush;
             YesButton.IsEnabled = false;
             YesButton.Opacity = 0.3;
+        }
+
+        private void ShowControl(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("W/UP - speed up\nA/Left - turn left\nD/Right - turn right\nSpace - fire","Controls");
         }
     }
 }

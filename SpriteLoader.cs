@@ -30,10 +30,10 @@ namespace Asteroids_Rebirth
                 {
                     System.Drawing.Rectangle srcRect = new System.Drawing.Rectangle(j * sizeX, i * sizeY, sizeX, sizeY);
                     Bitmap sourcepart = source.Clone(srcRect, source.PixelFormat);
-                    BitmapSource sd = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap( sourcepart.GetHbitmap(), IntPtr.Zero,  System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                    BitmapSource sd = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(sourcepart.GetHbitmap(), IntPtr.Zero, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                     images.Add(sd);
                 }
         }
     }
-   
+
 }

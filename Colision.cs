@@ -26,12 +26,12 @@ namespace Asteroids_Rebirth
         public double centerY;
         public double positionX;
         public double positionY;
-        public Colision(double centerx,double centery,double positionx,double positiony,double size,string path)
+        public Colision(double centerx, double centery, double positionx, double positiony, double size, string path)
         {
             positionX = positionx;
             positionY = positiony;
-            centerX = centerx+positionX;
-            centerY = centery+positionY;
+            centerX = centerx + positionX;
+            centerY = centery + positionY;
             SolidColorBrush yellowBrush = new SolidColorBrush();
             yellowBrush.Color = Colors.Yellow;
             SolidColorBrush blackBrush = new SolidColorBrush();
@@ -44,7 +44,7 @@ namespace Asteroids_Rebirth
             StreamReader re = new StreamReader(path);
             while (re.Peek() > -1)
             {
-                double x = double.Parse(re.ReadLine(), CultureInfo.InvariantCulture)*size/20.0;
+                double x = double.Parse(re.ReadLine(), CultureInfo.InvariantCulture) * size / 20.0;
                 x += positionX;
                 double y = double.Parse(re.ReadLine(), CultureInfo.InvariantCulture) * size / 20.0;
                 y += positionY;
@@ -61,8 +61,9 @@ namespace Asteroids_Rebirth
             centerY += delY;
             positionX += delX;
             positionY += delY;
-            for(int i=0;i<colisionpoints.Count;i++){
-                colisionpoints[i] = new System.Windows.Point(colisionpoints[i].X +delX, colisionpoints[i].Y+delY);
+            for (int i = 0; i < colisionpoints.Count; i++)
+            {
+                colisionpoints[i] = new System.Windows.Point(colisionpoints[i].X + delX, colisionpoints[i].Y + delY);
             }
 
         }
@@ -73,9 +74,9 @@ namespace Asteroids_Rebirth
             double sn = Math.Sin(angle);
             for (int i = 0; i < colisionpoints.Count; i++)
             {
-	            double xi=(colisionpoints[i].X-centerX)*cs-sn*(colisionpoints[i].Y-centerY);
-	            double yi=(colisionpoints[i].X-centerX)*sn+(colisionpoints[i].Y-centerY)*cs;
-                colisionpoints[i] = new System.Windows.Point(xi+centerX,yi+centerY);
+                double xi = (colisionpoints[i].X - centerX) * cs - sn * (colisionpoints[i].Y - centerY);
+                double yi = (colisionpoints[i].X - centerX) * sn + (colisionpoints[i].Y - centerY) * cs;
+                colisionpoints[i] = new System.Windows.Point(xi + centerX, yi + centerY);
             }
         }
     }

@@ -28,8 +28,8 @@ namespace Asteroids_Rebirth
 
     class Asteroids:IDrawing
     {
-        static TextureKeeper Red = new TextureKeeper(Environment.CurrentDirectory + @"\Big_red.png");
-        static TextureKeeper Gray = new TextureKeeper(Environment.CurrentDirectory + @"\Big_gray.png");
+        static TextureKeeper Red = new TextureKeeper(Environment.CurrentDirectory + @"\Resources\Textures\red.png");
+        static TextureKeeper Gray = new TextureKeeper(Environment.CurrentDirectory + @"\Resources\Textures\gray.png");
         public double positionX { get; set; }
         public double positionY { get; set; }
         public double speedX { get; set; }
@@ -58,11 +58,11 @@ namespace Asteroids_Rebirth
         {
             {
                 if (shape == 0)
-                    colision = new Colision(centerX, centerY, positionX, positionY,size, Environment.CurrentDirectory + @"\big.txt");
+                    colision = new Colision(centerX, centerY, positionX, positionY,size, Environment.CurrentDirectory + @"\Resources\Vertexes\shape1.txt");
                 if (shape == 1)
-                    colision = new Colision(centerX, centerY, positionX, positionY, size, Environment.CurrentDirectory + @"\big1.txt");
+                    colision = new Colision(centerX, centerY, positionX, positionY, size, Environment.CurrentDirectory + @"\Resources\Vertexes\shape2.txt");
                 if (shape == 2)
-                    colision = new Colision(centerX, centerY, positionX, positionY, size, Environment.CurrentDirectory + @"\big2.txt");
+                    colision = new Colision(centerX, centerY, positionX, positionY, size, Environment.CurrentDirectory + @"\Resources\Vertexes\shape3.txt");
             }
          //  canvas.Children.Add(colision.Polygon);
         }

@@ -19,7 +19,7 @@
 
         </Grid.RowDefinitions>
 
-        <Grid x:Name="Record" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634">
+        <Grid x:Name="Record" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634" d:IsHidden="True">
             <Button Content="No" HorizontalAlignment="Left" Margin="216,298,0,0" Style="{StaticResource BlackAndWhite}" Foreground="YellowGreen" VerticalAlignment="Top" Width="70" Click="Cancel" Height="22" Background="{x:Null}"/>
             <Button x:Name="YesButton" Content="Yes" HorizontalAlignment="Left" Margin="394,298,0,0" Style="{StaticResource BlackAndWhite}" Foreground="YellowGreen" VerticalAlignment="Top" Width="70" Click="AddRecord" Height="22" Background="{x:Null}" IsEnabled="False" Opacity="0.3"/>
             <TextBox x:Name="nameOfPlayer"  HorizontalAlignment="Left" BorderThickness="3" Style="{StaticResource BlackAndWhite}" Height="32" Margin="273,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" Background="{x:Null}" Foreground="YellowGreen" TextChanged="NameChanged" FontSize="14">
@@ -42,10 +42,11 @@
         </Viewbox>
         <Label x:Name="Information" Content="Score: 0  Lives:3" HorizontalAlignment="Left" Margin="10,10,0,0" Foreground="YellowGreen" VerticalAlignment="Top" Height="54" Width="302" FontSize="20" Background="{x:Null}" Grid.RowSpan="2"/>
 
-        <Grid x:Name="menu" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634" d:IsHidden="True">
+        <Grid x:Name="menu" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634">
             <Button Content="Start game" HorizontalAlignment="Left" Margin="495,152,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="StartGame"/>
-            <Button Content="Records" HorizontalAlignment="Left" Margin="495,198,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="ShowRecords"/>
+            <Button Content="Controls" HorizontalAlignment="Left" Margin="495,210,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="ShowControl"/>
             <Button Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="495,238,0,0" Style="{StaticResource BlackAndWhite}" Click="Exit"/>
+            <Button Content="Records" HorizontalAlignment="Left" Margin="495,181,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="ShowRecords"/>
         </Grid>
     </Grid>
 </Window>

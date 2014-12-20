@@ -21,7 +21,7 @@ namespace Asteroids_Rebirth
     /// </summary>
     public partial class Records : Window
     {
-      
+
         public Records()
         {
             InitializeComponent();
@@ -31,7 +31,7 @@ namespace Asteroids_Rebirth
         {
             try
             {
-                using (FileStream inStr = new FileStream(@"file.dat", FileMode.Open))
+                using (FileStream inStr = new FileStream(Environment.CurrentDirectory + @"\Resources\file.dat", FileMode.Open))
                 {
 
                     BinaryFormatter bf = new BinaryFormatter();

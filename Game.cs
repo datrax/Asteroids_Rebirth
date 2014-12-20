@@ -44,7 +44,8 @@ namespace Asteroids_Rebirth
             {
                 canvas.Children.Clear();
                 asteroids = new List<Asteroids>();
-                asteroids.Add(new Asteroids(canvas, 0, 0, 20, 2, wave));
+                Asteroids t = new Asteroids(canvas, 0, 0, 20, 2, wave);
+                asteroids.Add(t);
                 asteroids.Add(new Asteroids(canvas, 50, 10, 20, 1, wave));
                 asteroids.Add(new Asteroids(canvas, 50, 40, 20, 2, wave));
                 asteroids.Add(new Asteroids(canvas, 0, 40, 20, 1, wave));
