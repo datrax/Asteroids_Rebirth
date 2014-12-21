@@ -221,7 +221,8 @@ namespace Asteroids_Rebirth
             positionX = 38;
             positionY = 27;
             Angle = 0;
-            colision = new Colision(centerX, centerY, positionX, positionY, 20, Environment.CurrentDirectory + @"\Resources\Vertexes\ship.txt");
+            double scalesize = size / 12.0 * 20.0;
+            colision = new Colision(centerX, centerY, positionX, positionY, scalesize, Environment.CurrentDirectory + @"\Resources\Vertexes\ship.txt");
             livingtimer.Stop();
             livingtimer.Tick -= new EventHandler(rebirth);
             transparent = true;
