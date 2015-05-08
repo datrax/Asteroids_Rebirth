@@ -1,24 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Drawing;
+using System.Runtime.Serialization;
 namespace Asteroids_Rebirth
 {
-    class Spaceship : IDrawing
+  [DataContract]
+    public class Spaceship : IDrawing
     {
         public int lives { get; set; }
+        [DataMember]
         public double positionX { get; set; }
+        [DataMember]
         public double positionY { get; set; }
         public double speedX { get; set; }
         public double speedY { get; set; }
@@ -29,6 +23,7 @@ namespace Asteroids_Rebirth
         private DateTime laserTime { get; set; }
         public double centerY { get; set; }
         public double centerX { get; set; }
+        [DataMember]
         public double Angle { get; set; }
         public const double speedAngle = 6;
         private const double THRUST_MAGNUTIDE = 0.018;
@@ -40,7 +35,7 @@ namespace Asteroids_Rebirth
         public Canvas canvas { get; set; }
         SpriteAnimator explosion { get; set; }
         SpriteAnimator thrusters { get; set; }
-        System.Windows.Controls.Image Sprite { get; set; }
+        public System.Windows.Controls.Image Sprite { get; set; }
 
         void LoadPicture(double height)
         {
@@ -56,7 +51,7 @@ namespace Asteroids_Rebirth
             double scalesize = size / 12.0 * 20.0;
             colision = new Colision(centerX, centerY, positionX, positionY, scalesize, Environment.CurrentDirectory + @"\Resources\Vertexes\ship.txt");
 
-            //    canvas.Children.Add(colision.Polygon);
+               // canvas.Children.Add(colision.Polygon);
 
         }
         public Spaceship(Canvas canvas, double x, double y, double size)

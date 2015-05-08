@@ -18,7 +18,7 @@ using System.Globalization;
 
 namespace Asteroids_Rebirth
 {
-    class Colision
+    public class Colision
     {
         public Polygon Polygon;
         public PointCollection colisionpoints;

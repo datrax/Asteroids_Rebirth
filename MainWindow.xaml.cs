@@ -98,12 +98,16 @@ namespace Asteroids_Rebirth
 
         private void StartGame(object sender, RoutedEventArgs e)
         {
+            //single game
+            if(sender!=null)
+                game = new Game(canvas, this);
+
             InGame = true;
 
 
             gameViewBox.StretchDirection = StretchDirection.Both;
             gameViewBox.Stretch = Stretch.Fill;
-            game = new Game(canvas, this);
+            
             game.InitGame(0);
             if (MessageBox.Show("Would you like to start game in fullscreen mode?\n" + Environment.NewLine + "Keep in mind :While playing you can always change fullscreen mode by pressing ALT+ENTER ", "", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
@@ -212,6 +216,18 @@ namespace Asteroids_Rebirth
         private void ShowControl(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("W/UP - speed up\nA/Left - turn left\nD/Right - turn right\nSpace - fire","Controls");
+        }
+
+        private void SetClient(object sender, RoutedEventArgs e)
+        {
+            game = new MultiPlayerGameClient(canvas, this);
+            StartGame(null, null);
+        }
+
+        private void SetServer(object sender, RoutedEventArgs e)
+        {
+            game = new MultiPlayerGameServer(canvas, this);
+            StartGame(null,null);
         }
     }
 }

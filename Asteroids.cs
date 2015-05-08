@@ -26,7 +26,7 @@ namespace Asteroids_Rebirth
         }
     }
 
-    class Asteroids:IDrawing
+  public  class Asteroids:IDrawing
     {
         static TextureKeeper Red = new TextureKeeper(Environment.CurrentDirectory + @"\Resources\Textures\red.png");
         static TextureKeeper Gray = new TextureKeeper(Environment.CurrentDirectory + @"\Resources\Textures\gray.png");
@@ -96,6 +96,9 @@ namespace Asteroids_Rebirth
                 centerX = Sprite.Width / 2.0;
                 centerY = Sprite.Height / 2.0;
                 CreateAPolygon(shape);
+            speedX = 0;
+            speedY = 0;
+            
             draw();
         }
         public void draw()

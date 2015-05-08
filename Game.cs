@@ -21,14 +21,14 @@ namespace Asteroids_Rebirth
 
         public class Game
         {
-            DispatcherTimer loopTimer;
-            Spaceship spaceship;
-            List<Asteroids> asteroids;
-            Label scoreInformation;
-            MainWindow window;
-            int score;
-            int wave;
-            private Canvas canvas;
+          protected  DispatcherTimer loopTimer;
+          protected Spaceship spaceship;
+          protected List<Asteroids> asteroids;
+          protected Label scoreInformation;
+          protected MainWindow window;
+          protected int score;
+          protected int wave;
+          protected   Canvas canvas;
 
             public Game(Canvas canvas, MainWindow window)
             {
@@ -40,7 +40,7 @@ namespace Asteroids_Rebirth
             }
 
 
-            public void InitGame(int wave)
+            public virtual void InitGame(int wave)
             {
                 canvas.Children.Clear();
                 asteroids = new List<Asteroids>();
@@ -52,25 +52,25 @@ namespace Asteroids_Rebirth
                 spaceship = new Spaceship(canvas, 38, 27,10);
             }
 
-            public void Loop()
+            public virtual void Loop()
             {
-                loopTimer = new System.Windows.Threading.DispatcherTimer();
+                loopTimer = new DispatcherTimer();
                 loopTimer.Tick += new EventHandler(dispatcherTimer_Tick);
                 loopTimer.Interval = new TimeSpan(0, 0, 0, 0, 16);
                 loopTimer.Start();
                
             }
-            public void Pause()
+            public virtual void Pause()
             {
                 loopTimer.Stop();
 
             }
-            public void Continue()
+            public virtual void Continue()
             {
                 loopTimer.Start();
             }
 
-            private void dispatcherTimer_Tick(object sender, EventArgs e)
+           protected virtual void dispatcherTimer_Tick(object sender, EventArgs e)
             {
                 scoreInformation.Content = "Score: " + score.ToString() + " Lives: " + spaceship.lives + " Wave: " + wave;
                 if (spaceship.lives == 0)
@@ -118,7 +118,7 @@ namespace Asteroids_Rebirth
                     asteroids[i].draw();
 
             }
-            private void split(int k)
+            protected void split(int k)
             {
                 double x = asteroids[k].positionX;
                 double y = asteroids[k].positionY;
@@ -146,7 +146,7 @@ namespace Asteroids_Rebirth
                     asteroids.Add(new Asteroids(canvas, posx, posy, newsize, color, wave));
                 }
             }
-            private int colision(Point[] shipVertexes, List<Asteroids> asteroids)
+            public int colision(Point[] shipVertexes, List<Asteroids> asteroids)
             {
                 for (int asteroidNumber = 0; asteroidNumber < asteroids.Count; asteroidNumber++)
                 {
