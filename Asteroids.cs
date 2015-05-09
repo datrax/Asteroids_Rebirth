@@ -13,22 +13,25 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Drawing;
+using Newtonsoft.Json;
 
 namespace Asteroids_Rebirth
 {
-     class TextureKeeper
+    class TextureKeeper
     {
         public SpriteLoader Textures;
 
         public TextureKeeper(string path)
         {
-           Textures=new SpriteLoader(path,320,240,1,3);
+            Textures = new SpriteLoader(path, 320, 240, 1, 3);
         }
     }
 
-  public  class Asteroids:IDrawing
+    public class Asteroids : IDrawing
     {
+        [JsonIgnore]
         static TextureKeeper Red = new TextureKeeper(Environment.CurrentDirectory + @"\Resources\Textures\red.png");
+        [JsonIgnore]
         static TextureKeeper Gray = new TextureKeeper(Environment.CurrentDirectory + @"\Resources\Textures\gray.png");
         public double positionX { get; set; }
         public double positionY { get; set; }
@@ -38,11 +41,14 @@ namespace Asteroids_Rebirth
         public double centerX { get; set; }
         public double Angle { get; set; }
         public double speedAngle { get; set; }
+        [JsonIgnore]
         public Canvas canvas { get; set; }
 
         public int size { get; set; }
         public int color { get; set; }//1-gray 2-red 
+        [JsonIgnore]
         public Colision colision { get; set; }
+        [JsonIgnore]
         public System.Windows.Controls.Image Sprite { get; set; }
 
         void LoadPicture(int height)
@@ -58,15 +64,20 @@ namespace Asteroids_Rebirth
         {
             {
                 if (shape == 0)
-                    colision = new Colision(centerX, centerY, positionX, positionY,size, Environment.CurrentDirectory + @"\Resources\Vertexes\shape1.txt");
+                    colision = new Colision(centerX, centerY, positionX, positionY, size, Environment.CurrentDirectory + @"\Resources\Vertexes\shape1.txt");
                 if (shape == 1)
                     colision = new Colision(centerX, centerY, positionX, positionY, size, Environment.CurrentDirectory + @"\Resources\Vertexes\shape2.txt");
                 if (shape == 2)
                     colision = new Colision(centerX, centerY, positionX, positionY, size, Environment.CurrentDirectory + @"\Resources\Vertexes\shape3.txt");
             }
-         //  canvas.Children.Add(colision.Polygon);
+            //  canvas.Children.Add(colision.Polygon);
         }
-        public Asteroids(Canvas canvas, double x, double y,int size,int color,int wave)
+
+        public Asteroids()
+        {
+            
+        }
+        public Asteroids(Canvas canvas, double x, double y, int size, int color, int wave)
         {
             this.canvas = canvas;
             this.positionX = x;
@@ -92,13 +103,42 @@ namespace Asteroids_Rebirth
             if (color == 2)
                 Sprite.Source = Red.Textures.images[shape];
 
-                canvas.Children.Add(Sprite);
-                centerX = Sprite.Width / 2.0;
-                centerY = Sprite.Height / 2.0;
-                CreateAPolygon(shape);
-            speedX = 0;
-            speedY = 0;
+            canvas.Children.Add(Sprite);
+            centerX = Sprite.Width / 2.0;
+            centerY = Sprite.Height / 2.0;
+            CreateAPolygon(shape);
+ 
+
+            draw();
+        }
+
+        public  Asteroids(Canvas canvas, double x, double y, int size, int color,double SpeedX,double SpeedY,double speedAngle,int wave)
+        {
+            this.canvas = canvas;
+            this.positionX = x;
+            this.positionY = y;
+            this.size = size;
+            this.color = color;
+
+            Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
             
+            speedX = (SpeedX+wave)/10.0;
+            speedY = (SpeedY+wave)/10.0;
+            Angle = 0;
+            this.speedAngle = speedAngle;
+            LoadPicture(size);
+            int shape = random.Next(0, 2);
+            if (color == 1)
+                Sprite.Source = Gray.Textures.images[shape];
+            if (color == 2)
+                Sprite.Source = Red.Textures.images[shape];
+
+            canvas.Children.Add(Sprite);
+            centerX = Sprite.Width / 2.0;
+            centerY = Sprite.Height / 2.0;
+            CreateAPolygon(shape);
+
+
             draw();
         }
         public void draw()
@@ -111,7 +151,7 @@ namespace Asteroids_Rebirth
             rotateTransform1.CenterX = centerX;
             rotateTransform1.CenterY = centerY;
             Sprite.RenderTransform = rotateTransform1;
-            
+
         }
         public void physics()
         {
@@ -119,29 +159,29 @@ namespace Asteroids_Rebirth
             positionY += speedY;
             colision.move(speedX, speedY);
             Angle += speedAngle;
-           colision.rotate(Math.PI * (speedAngle) / 180.0);
-            if (colision.centerX-size/2.0 >= canvas.Width+3 )
+            colision.rotate(Math.PI * (speedAngle) / 180.0);
+            if (colision.centerX - size / 2.0 >= canvas.Width + 3)
             {
-                positionX -= (canvas.Width + size+3);
-                colision.move(-(canvas.Width + size+3), 0);
+                positionX -= (canvas.Width + size + 3);
+                colision.move(-(canvas.Width + size + 3), 0);
             }
             else
-                if (colision.centerX + size/2 <= -3)
+                if (colision.centerX + size / 2 <= -3)
                 {
-                    positionX += (canvas.Width +size);
-                    colision.move((canvas.Width+size), 0);
+                    positionX += (canvas.Width + size);
+                    colision.move((canvas.Width + size), 0);
                 }
 
             if (colision.centerY - size / 2.0 >= canvas.Height + 3)
             {
                 positionY -= (canvas.Height + size + 3);
-                colision.move(0,-(canvas.Height + size + 3));
+                colision.move(0, -(canvas.Height + size + 3));
             }
             else
                 if (colision.centerY + size / 2 <= -3)
                 {
                     positionY += (canvas.Height + size);
-                    colision.move(0,(canvas.Height + size));
+                    colision.move(0, (canvas.Height + size));
                 }
         }
     }

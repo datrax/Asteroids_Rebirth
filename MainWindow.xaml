@@ -49,6 +49,7 @@
             <Button Content="Records" HorizontalAlignment="Left" Margin="495,181,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="ShowRecords"/>
             <Button Content="Client" HorizontalAlignment="Left" Margin="326,75,0,0" VerticalAlignment="Top" Width="75" Click="SetClient"/>
             <Button Content="Server" HorizontalAlignment="Left" Margin="495,75,0,0" VerticalAlignment="Top" Width="75" Click="SetServer"/>
+            <TextBox x:Name="ip" HorizontalAlignment="Left" Height="23" Margin="100,75,0,0" TextWrapping="Wrap" Text="Host ip" VerticalAlignment="Top" Width="186"/>
         </Grid>
     </Grid>
 </Window>

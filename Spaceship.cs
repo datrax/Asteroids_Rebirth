@@ -3,38 +3,50 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 namespace Asteroids_Rebirth
 {
-  [DataContract]
     public class Spaceship : IDrawing
     {
+        public int lastHitAsteroidNumber { get; set; }
         public int lives { get; set; }
-        [DataMember]
         public double positionX { get; set; }
-        [DataMember]
+ 
         public double positionY { get; set; }
         public double speedX { get; set; }
         public double speedY { get; set; }
-
+        /// <summary>
+        /// done for multiplayer's getting laser coordinates
+        /// </summary>
+        public double laserEdgeX { get; set; }
+        public double laserEdgeY { get; set; }
         public bool laserIsEnabled { get; set; }
+              [JsonIgnore]
         public Line laser { get; set; }
+          [JsonIgnore]
 
         private DateTime laserTime { get; set; }
         public double centerY { get; set; }
         public double centerX { get; set; }
-        [DataMember]
         public double Angle { get; set; }
         public const double speedAngle = 6;
         private const double THRUST_MAGNUTIDE = 0.018;
         private const double FRICTION_MAGNITUDE = 0.015;
+        [JsonIgnore]
         public Colision colision;
+          [JsonIgnore]
         public bool alive { get; set; }
+          [JsonIgnore]
         public bool transparent { get; set; }
+          [JsonIgnore]
         public double size { get; set; }
+          [JsonIgnore]
         public Canvas canvas { get; set; }
-        SpriteAnimator explosion { get; set; }
-        SpriteAnimator thrusters { get; set; }
+          [JsonIgnore]
+          public SpriteAnimator explosion { get; set; }
+          [JsonIgnore]
+          public SpriteAnimator thrusters { get; set; }
+          [JsonIgnore]
         public System.Windows.Controls.Image Sprite { get; set; }
 
         void LoadPicture(double height)
@@ -54,8 +66,18 @@ namespace Asteroids_Rebirth
                // canvas.Children.Add(colision.Polygon);
 
         }
+
+        public Spaceship()
+        {
+            lastHitAsteroidNumber = -1;
+            thrusters = new SpriteAnimator();
+            explosion=new SpriteAnimator();
+            colision=new Colision();
+        }
+
         public Spaceship(Canvas canvas, double x, double y, double size)
         {
+            lastHitAsteroidNumber = -1;
             livingtimer = new System.Windows.Threading.DispatcherTimer();
             laserTime = DateTime.Now;
             laser = new Line()
@@ -160,6 +182,8 @@ namespace Asteroids_Rebirth
                     laser.Y1 = this.colision.colisionpoints[5].Y;
                     laser.X2 = this.colision.colisionpoints[5].X + directionX * 100;
                     laser.Y2 = this.colision.colisionpoints[5].Y + directionY * 100;
+                    laserEdgeX = colision.colisionpoints[5].X;
+                    laserEdgeY = colision.colisionpoints[5].Y;
                 }
                 else
                     laserIsEnabled = false;

@@ -55,6 +55,11 @@ namespace Asteroids_Rebirth
             re.Close();
             Polygon.Points = colisionpoints;
         }
+
+        public Colision()
+        {
+            // TODO: Complete member initialization
+        }
         public void move(double delX, double delY)
         {
             centerX += delX;

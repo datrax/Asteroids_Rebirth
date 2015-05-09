@@ -31,6 +31,10 @@ namespace Asteroids_Rebirth
             img = new System.Windows.Controls.Image();
 
         }
+
+        public SpriteAnimator() 
+        {           
+        }
         public void Animation(int time, bool isloop, int defaultframe)
         {
 

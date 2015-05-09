@@ -43,9 +43,8 @@ namespace Asteroids_Rebirth
             public virtual void InitGame(int wave)
             {
                 canvas.Children.Clear();
-                asteroids = new List<Asteroids>();
-                Asteroids t = new Asteroids(canvas, 0, 0, 20, 2, wave);
-                asteroids.Add(t);
+                asteroids = new List<Asteroids>();      
+                asteroids.Add(new Asteroids(canvas, 0, 0, 20, 2, wave));
                 asteroids.Add(new Asteroids(canvas, 50, 10, 20, 1, wave));
                 asteroids.Add(new Asteroids(canvas, 50, 40, 20, 2, wave));
                 asteroids.Add(new Asteroids(canvas, 0, 40, 20, 1, wave));
@@ -98,6 +97,7 @@ namespace Asteroids_Rebirth
                     int hitAsteroid = colision(spaceship.colision.colisionpoints.ToArray(), asteroids);
                     if (hitAsteroid >= 0)
                     {
+                    
                         spaceship.destroy();
                         split(hitAsteroid);
 
@@ -109,6 +109,7 @@ namespace Asteroids_Rebirth
                     int hitAsteroid = colision(new Point[] { new Point(spaceship.laser.X1, spaceship.laser.Y1), new Point(spaceship.laser.X2, spaceship.laser.Y2) }, asteroids);
                     if (hitAsteroid >= 0)
                     {
+                        
                         split(hitAsteroid);
                         score += 10 * (wave + 1);
                     };
@@ -118,7 +119,7 @@ namespace Asteroids_Rebirth
                     asteroids[i].draw();
 
             }
-            protected void split(int k)
+            protected virtual void split(int k)
             {
                 double x = asteroids[k].positionX;
                 double y = asteroids[k].positionY;
@@ -130,7 +131,7 @@ namespace Asteroids_Rebirth
                 asteroids.RemoveAt(k);
             }
 
-            private void AddSmallAsteroids(double posx,double posy,int size, int color)
+            protected virtual  void AddSmallAsteroids(double posx,double posy,int size, int color)
             {
                 Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
                  int amount ;
