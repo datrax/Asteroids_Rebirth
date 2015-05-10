@@ -13,3 +13,8 @@ C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroid
 C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\Asteroids_Rebirth.exe
 C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\Asteroids_Rebirth.pdb
 C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\Asteroids_Rebirth.csprojResolveAssemblyReference.cache
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\Interop.NATUPNPLib.dll
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\obj\Release\Asteroids_Rebirth.csproj.ResolveComReference.cache
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\bin\Release\Newtonsoft.Json.dll
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\bin\Release\Newtonsoft.Json.xml
+C:\Users\datrax\Documents\Visual Studio 2013\Projects\Asteroids_Rebirth\Asteroids_Rebirth\bin\Release\Interop.NATUPNPLib.dll

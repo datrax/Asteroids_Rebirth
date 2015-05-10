@@ -11,7 +11,7 @@ namespace Asteroids_Rebirth
         public int lastHitAsteroidNumber { get; set; }
         public int lives { get; set; }
         public double positionX { get; set; }
- 
+
         public double positionY { get; set; }
         public double speedX { get; set; }
         public double speedY { get; set; }
@@ -21,10 +21,12 @@ namespace Asteroids_Rebirth
         public double laserEdgeX { get; set; }
         public double laserEdgeY { get; set; }
         public bool laserIsEnabled { get; set; }
-              [JsonIgnore]
-        public Line laser { get; set; }
-          [JsonIgnore]
+        public int astAmount { get; set; }
 
+        [JsonIgnore]
+        public Line laser { get; set; }
+        [JsonIgnore]
+        
         private DateTime laserTime { get; set; }
         public double centerY { get; set; }
         public double centerX { get; set; }
@@ -34,19 +36,18 @@ namespace Asteroids_Rebirth
         private const double FRICTION_MAGNITUDE = 0.015;
         [JsonIgnore]
         public Colision colision;
-          [JsonIgnore]
         public bool alive { get; set; }
-          [JsonIgnore]
+        [JsonIgnore]
         public bool transparent { get; set; }
-          [JsonIgnore]
+        [JsonIgnore]
         public double size { get; set; }
-          [JsonIgnore]
+        [JsonIgnore]
         public Canvas canvas { get; set; }
-          [JsonIgnore]
-          public SpriteAnimator explosion { get; set; }
-          [JsonIgnore]
-          public SpriteAnimator thrusters { get; set; }
-          [JsonIgnore]
+        [JsonIgnore]
+        public SpriteAnimator explosion { get; set; }
+        [JsonIgnore]
+        public SpriteAnimator thrusters { get; set; }
+        [JsonIgnore]
         public System.Windows.Controls.Image Sprite { get; set; }
 
         void LoadPicture(double height)
@@ -63,7 +64,7 @@ namespace Asteroids_Rebirth
             double scalesize = size / 12.0 * 20.0;
             colision = new Colision(centerX, centerY, positionX, positionY, scalesize, Environment.CurrentDirectory + @"\Resources\Vertexes\ship.txt");
 
-               // canvas.Children.Add(colision.Polygon);
+            // canvas.Children.Add(colision.Polygon);
 
         }
 
@@ -71,8 +72,8 @@ namespace Asteroids_Rebirth
         {
             lastHitAsteroidNumber = -1;
             thrusters = new SpriteAnimator();
-            explosion=new SpriteAnimator();
-            colision=new Colision();
+            explosion = new SpriteAnimator();
+            colision = new Colision();
         }
 
         public Spaceship(Canvas canvas, double x, double y, double size)

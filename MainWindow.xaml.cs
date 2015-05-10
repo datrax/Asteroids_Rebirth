@@ -32,6 +32,7 @@ namespace Asteroids_Rebirth
         // Spaceship spaceship;
         Game game;
         bool FoolScreen = false;
+        public bool isInMultiplayer { get; set; }
         public bool InGame { get; set; }
 
         int score;
@@ -48,17 +49,21 @@ namespace Asteroids_Rebirth
             {
                 if (Keyboard.IsKeyDown(Key.Escape))
                 {
-                    game.Pause();
-                    if (MessageBox.Show("Would you like to quit?", "Pause", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                    
+                    game.Pause();                    
+                    if (isInMultiplayer||MessageBox.Show("Would you like to quit?", "Pause", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                     {
-                        menu.Visibility = Visibility.Visible;
-                        gameViewBox.Visibility = Visibility.Hidden;
+                        if (!isInMultiplayer)
+                        {
+                            menu.Visibility = Visibility.Visible;
+                            gameViewBox.Visibility = Visibility.Hidden;
 
-                        FoolScreen = false;
-                        this.WindowStyle = WindowStyle.SingleBorderWindow;
-                        this.WindowState = WindowState.Normal;
-
+                            FoolScreen = false;
+                            this.WindowStyle = WindowStyle.SingleBorderWindow;
+                            this.WindowState = WindowState.Normal;
+                         }
                         InGame = false;
+                      
                     }
                     else
                     {
@@ -124,11 +129,15 @@ namespace Asteroids_Rebirth
             menu.Visibility = Visibility.Hidden;
             gameViewBox.Visibility = Visibility.Visible;
             Information.Visibility = Visibility.Visible;
+            OnlineMenu.Visibility = Visibility.Hidden;
+            ClientMenu.Visibility = Visibility.Hidden;
+            ClientMenu.Visibility = Visibility.Hidden;
             game.Loop();
         }
 
         private void Exit(object sender, RoutedEventArgs e)
         {
+            StopAllThreads(sender,null);
             this.Close();
         }
 
@@ -190,13 +199,14 @@ namespace Asteroids_Rebirth
             InGame = false;
             gameViewBox.Visibility = Visibility.Hidden;
             Record.Visibility = Visibility.Hidden;
+            OnlineMenu.Visibility = Visibility.Hidden;
             ImageBrush myBrush = new ImageBrush();
             System.Windows.Controls.Image image = new System.Windows.Controls.Image();
             image.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Resources\Textures\menu.png"));
             myBrush.ImageSource = image.Source;
             menu.Background = myBrush;
-
-
+            OnlineMenu.Background = menu.Background;
+            ClientMenu.Background = menu.Background;
             myBrush = new ImageBrush();
             image = new System.Windows.Controls.Image();
             image.Source = new BitmapImage(
@@ -211,6 +221,7 @@ namespace Asteroids_Rebirth
             Record.Background = myBrush;
             YesButton.IsEnabled = false;
             YesButton.Opacity = 0.3;
+            isInMultiplayer = false;
         }
 
         private void ShowControl(object sender, RoutedEventArgs e)
@@ -220,14 +231,41 @@ namespace Asteroids_Rebirth
 
         private void SetClient(object sender, RoutedEventArgs e)
         {
-            game = new MultiPlayerGameClient(canvas, this);
-            StartGame(null, null);
+            OnlineMenu.Visibility = Visibility.Hidden;
+            ClientMenu.Visibility = Visibility.Visible;
+         
         }
 
         private void SetServer(object sender, RoutedEventArgs e)
         {
             game = new MultiPlayerGameServer(canvas, this);
             StartGame(null,null);
+            isInMultiplayer = true;
+        }
+
+        private void MultiStart(object sender, RoutedEventArgs e)
+        {
+            menu.Visibility = Visibility.Hidden;
+            OnlineMenu.Visibility = Visibility.Visible;
+        }
+
+        private void BackToMainMenu(object sender, RoutedEventArgs e)
+        {
+            menu.Visibility = Visibility.Visible;
+            OnlineMenu.Visibility = Visibility.Hidden;
+        }
+
+        private void StartClient(object sender, RoutedEventArgs e)
+        {
+            game = new MultiPlayerGameClient(canvas, this);
+            StartGame(null, null);
+            isInMultiplayer = true;
+        }
+
+        private void StopAllThreads(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+           if(game!=null) game.Pause();
+            
         }
     }
 }

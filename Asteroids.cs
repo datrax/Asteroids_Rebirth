@@ -26,9 +26,11 @@ namespace Asteroids_Rebirth
             Textures = new SpriteLoader(path, 320, 240, 1, 3);
         }
     }
-
+    
     public class Asteroids : IDrawing
     {
+        private static int idCounter ;
+        public int id;
         [JsonIgnore]
         static TextureKeeper Red = new TextureKeeper(Environment.CurrentDirectory + @"\Resources\Textures\red.png");
         [JsonIgnore]
@@ -79,6 +81,7 @@ namespace Asteroids_Rebirth
         }
         public Asteroids(Canvas canvas, double x, double y, int size, int color, int wave)
         {
+            id = idCounter++;
             this.canvas = canvas;
             this.positionX = x;
             this.positionY = y;
@@ -122,8 +125,8 @@ namespace Asteroids_Rebirth
 
             Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
             
-            speedX = (SpeedX+wave)/10.0;
-            speedY = (SpeedY+wave)/10.0;
+            speedX = (SpeedX>0?SpeedX+wave:speedX-wave)/10.0;
+            speedY = (SpeedY > 0 ? SpeedY + wave : speedY - wave) / 10.0;
             Angle = 0;
             this.speedAngle = speedAngle;
             LoadPicture(size);

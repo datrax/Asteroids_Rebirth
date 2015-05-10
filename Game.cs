@@ -62,6 +62,7 @@ namespace Asteroids_Rebirth
             public virtual void Pause()
             {
                 loopTimer.Stop();
+                loopTimer = new DispatcherTimer();
 
             }
             public virtual void Continue()

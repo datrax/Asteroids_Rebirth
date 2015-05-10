@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Asteroids_Rebirth.MainWindow"
     Icon="logo.ico"
-        Title="Asteroids-Rebirth" Height="480" Width="640" Background="#FF008F88"  ResizeMode="NoResize" KeyDown="Keys" Loaded="SetDefault">
+        Title="Asteroids-Rebirth" Height="480" Width="640" Background="#FF008F88"  ResizeMode="NoResize" KeyDown="Keys" Loaded="SetDefault" Closing="StopAllThreads">
     <Window.Resources>
         <Style x:Key="BlackAndWhite">
             <Setter Property="Control.FontFamily" Value="Arial" />
@@ -40,16 +40,28 @@
 
             <Canvas x:Name="canvas" Width="75" Height="54" MouseRightButtonDown="mouseclick"/>
         </Viewbox>
+        <Grid x:Name="ServerInformation" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634">
+            <Label x:Name="InfForServer" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="123,120,0,0" Height="191" Width="416" FontSize="24" Foreground="YellowGreen"/>
+        </Grid>
         <Label x:Name="Information" Content="Score: 0  Lives:3" HorizontalAlignment="Left" Margin="10,10,0,0" Foreground="YellowGreen" VerticalAlignment="Top" Height="54" Width="302" FontSize="20" Background="{x:Null}" Grid.RowSpan="2"/>
+        <Grid x:Name="ClientMenu" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634">
+            <TextBox x:Name="ip" HorizontalAlignment="Left" Height="23" Margin="448,148,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160" Style="{StaticResource BlackAndWhite}"/>
+            <Label Content="Host ip:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="383,147,0,0" Foreground="WhiteSmoke"/>
+            <Button Content="Connect" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="469,189,0,0" Style="{StaticResource BlackAndWhite}" Click="StartClient"/>
+            <Button Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="469,225,0,0" Click="BackToMainMenu"  Style="{StaticResource BlackAndWhite}"/>
+        </Grid>
+        <Grid x:Name="OnlineMenu" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634" d:IsHidden="True">
+            <Button Content="Client" HorizontalAlignment="Left" Margin="495,196,0,0" VerticalAlignment="Top" Width="75" Click="SetClient"  Style="{StaticResource BlackAndWhite}"/>
+            <Button Content="Server" HorizontalAlignment="Left" Margin="495,152,0,0" VerticalAlignment="Top" Width="75" Click="SetServer"  Style="{StaticResource BlackAndWhite}"/>
+            <Button Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="495,238,0,0" Click="BackToMainMenu"  Style="{StaticResource BlackAndWhite}"/>
+        </Grid>
 
-        <Grid x:Name="menu" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634">
-            <Button Content="Start game" HorizontalAlignment="Left" Margin="495,152,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="StartGame"/>
-            <Button Content="Controls" HorizontalAlignment="Left" Margin="495,210,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="ShowControl"/>
-            <Button Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="495,238,0,0" Style="{StaticResource BlackAndWhite}" Click="Exit"/>
-            <Button Content="Records" HorizontalAlignment="Left" Margin="495,181,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="ShowRecords"/>
-            <Button Content="Client" HorizontalAlignment="Left" Margin="326,75,0,0" VerticalAlignment="Top" Width="75" Click="SetClient"/>
-            <Button Content="Server" HorizontalAlignment="Left" Margin="495,75,0,0" VerticalAlignment="Top" Width="75" Click="SetServer"/>
-            <TextBox x:Name="ip" HorizontalAlignment="Left" Height="23" Margin="100,75,0,0" TextWrapping="Wrap" Text="Host ip" VerticalAlignment="Top" Width="186"/>
+        <Grid x:Name="menu" HorizontalAlignment="Left" Height="452" Grid.RowSpan="2" VerticalAlignment="Top" Width="634" d:IsHidden="True">
+            <Button Content="Singleplayer" HorizontalAlignment="Left" Margin="495,142,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="StartGame"/>
+            <Button Content="Controls" HorizontalAlignment="Left" Margin="495,216,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="ShowControl"/>
+            <Button Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="495,239,0,0" Style="{StaticResource BlackAndWhite}" Click="Exit"/>
+            <Button Content="Records" HorizontalAlignment="Left" Margin="495,191,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="ShowRecords"/>
+            <Button Content="Multiplayer" HorizontalAlignment="Left" Margin="495,167,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource BlackAndWhite}" Click="MultiStart"/>
         </Grid>
     </Grid>
 </Window>

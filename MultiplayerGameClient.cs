@@ -19,6 +19,8 @@ namespace Asteroids_Rebirth
         public string ip;
         private Thread network;
         private Spaceship secondSpaceship;
+        public bool stopThread = false;
+        private DateTime time;
         public MultiPlayerGameClient(Canvas canvas, MainWindow window)
             : base(canvas, window)
         {
@@ -28,6 +30,7 @@ namespace Asteroids_Rebirth
             ip = window.ip.Text;
             wave = 0;
             score = 0;
+            time = DateTime.Now;
         }
 
         public override void Loop()
@@ -90,68 +93,75 @@ namespace Asteroids_Rebirth
 
             secondSpaceship = new Spaceship(canvas, 38, 20, 10);
             secondSpaceship.Sprite.Source = spaceship.thrusters.images[1];
+            waitingForClient = true;
         }
+        Socket socket = null;
         private void ClientInitialization()
         {
-           
-                IPHostEntry ipHost;
-                IPAddress ipAddr;
-                IPEndPoint ipEndPoint;
 
-                Socket socket=null;
-                bool doing = true;
-                ipAddr = IPAddress.Parse("94.232.213.85");
-                if(ip!="Host ip")
-                    ipAddr = IPAddress.Parse(ip);
-                ipEndPoint = new IPEndPoint(ipAddr, 20910);
+            IPHostEntry ipHost;
+            IPAddress ipAddr;
+            IPEndPoint ipEndPoint;
 
-                try
-                {
-                // Соединяем сокет с удаленной точкой
-   
+            
+            bool doing = true;
+            ipAddr = IPAddress.Parse("94.232.213.85");
+            if (ip != "")
+                ipAddr = IPAddress.Parse(ip);
+            ipEndPoint = new IPEndPoint(ipAddr, 20910);
+
+            try
+            {
+
+
                 do
                 {
                     // Буфер для входящих данных
-                    byte[] bytes = new byte[4096];
-
-
-
-                    // Устанавливаем удаленную точку для сокета
-                    socket = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                    socket.Connect(ipEndPoint);
-                    double[] array = new double[3];
-
+                    byte[] bytes = new byte[1024];
                     waitingForClient = false;
+
                     string json = null;
 
                     json = JsonConvert.SerializeObject(spaceship);
+                    if (stopThread) 
+                        json = "stop";
                     byte[] msg = Encoding.UTF8.GetBytes(json);
-
+                    // Устанавливаем удаленную точку для сокета
+                    socket = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                    socket.Connect(ipEndPoint);
                     int bytesSent = socket.Send(msg); // Отправляем данные через сокет
-
-                        spaceship.lastHitAsteroidNumber = -1;
+                    if (json == "stop") break;
+                    spaceship.lastHitAsteroidNumber = -1;
 
                     // Получаем ответ от сервера
                     int bytesRec = socket.Receive(bytes);
                     string data = null;
                     data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
+                    if (data == "stop")
+                    {
+                //        MessageBox.Show("Server has left the game");
+                        break;
+                    }             
                     Spaceship c = JsonConvert.DeserializeObject<Spaceship>(data);
+
                     window.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                        (ThreadStart) delegate()
+                        (ThreadStart)delegate()
                         {
                             secondSpaceship.positionX = c.positionX;
                             secondSpaceship.positionY = c.positionY;
                             secondSpaceship.Angle = c.Angle;
                             secondSpaceship.laser.X1 = c.laserEdgeX;
                             secondSpaceship.laser.Y1 = c.laserEdgeY;
+                            secondSpaceship.astAmount = c.astAmount;
+                            secondSpaceship.alive = c.alive;
 
-                            double directionX = Math.Sin(Math.PI*c.Angle/180.0);
-                            double directionY = -Math.Cos(Math.PI*c.Angle/180.0);
-                            secondSpaceship.laser.X2 = c.laserEdgeX + directionX*100;
-                            secondSpaceship.laser.Y2 = c.laserEdgeY + directionY*100;
+                            double directionX = Math.Sin(Math.PI * c.Angle / 180.0);
+                            double directionY = -Math.Cos(Math.PI * c.Angle / 180.0);
+                            secondSpaceship.laser.X2 = c.laserEdgeX + directionX * 100;
+                            secondSpaceship.laser.Y2 = c.laserEdgeY + directionY * 100;
                             secondSpaceship.laserIsEnabled = c.laserIsEnabled;
-                      //      secondSpaceship.Sprite.Source = spaceship.Sprite.Source.CloneCurrentValue();
-                            if (c.lastHitAsteroidNumber<asteroids.Count&&c.lastHitAsteroidNumber != -1&&c.lastHitAsteroidNumber!=spaceship.lastHitAsteroidNumber)
+                            //      secondSpaceship.Sprite.Source = spaceship.Sprite.Source.CloneCurrentValue();
+                            if (c.lastHitAsteroidNumber < asteroids.Count && c.lastHitAsteroidNumber != -1 && c.lastHitAsteroidNumber != spaceship.lastHitAsteroidNumber)
                             {
                                 var k = c.lastHitAsteroidNumber;
                                 split(k);
@@ -160,51 +170,79 @@ namespace Asteroids_Rebirth
                         });
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
-
-                    Thread.Sleep(1);
-
+                    Thread.Sleep(8);
                 } while (doing);
-            
+
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Соединение с сервером было потеряно или разорвано");
+             
             }
             finally
             {
-                    // Освобождаем сокет
-                if (socket != null)
+
+                try
                 {
-                   //socket.Shutdown(SocketShutdown.Both);
+                    socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
+
+                }
+                catch
+                {
+                }
+
+                finally
+                {
+                    window.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                        (ThreadStart) delegate()
+                        {
+                            base.Pause();
+                            window.Record.Visibility = Visibility.Visible;
+                            window.ScoreText.Content = "Your Score: " + score.ToString();
+                            window.nameOfPlayer.Focus();
+                            window.Information.Visibility = Visibility.Hidden;
+                            window.gameViewBox.Visibility = Visibility.Hidden;
+                            window.WindowStyle = WindowStyle.SingleBorderWindow;
+                            window.WindowState = WindowState.Normal;
+                        });
+                    network.Abort();
                 }
             }
         }
 
 
         public override void Pause()
-        {
+        {                      
             base.Pause();
-            network.Abort();
+            stopThread = true;
         }
+
+       
         protected override void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             while (waitingForClient) ;
+            spaceship.astAmount = asteroids.Count;
+            window.InfForServer.Content = "";
             scoreInformation.Content = "Score: " + score.ToString() + " Lives: " + spaceship.lives + " Wave: " + wave;
-            if (spaceship.lives == 0||secondSpaceship.lives==0)
+            if (spaceship.lives == 0 || secondSpaceship.lives == 0)
             {
                 this.Pause();
-                window.Record.Visibility = Visibility.Visible;
-                window.ScoreText.Content = "Your Score: " + score.ToString();
-                window.nameOfPlayer.Focus();
-                window.Information.Visibility = Visibility.Hidden;
-                window.gameViewBox.Visibility = Visibility.Hidden;
-                window.WindowStyle = WindowStyle.SingleBorderWindow;
-                window.WindowState = WindowState.Normal;
-                network.Abort();
+                stopThread = true;
+          /*     
+                network.Abort();*/
             }
             spaceship.physics();
-            if (asteroids.Count == 0)
+            
+            if (secondSpaceship.alive == false&&(DateTime.Now-time).Seconds>3) 
+            {
+                secondSpaceship.destroy();
+                time = DateTime.Now;
+            }
+           if((DateTime.Now-time).Seconds>3)
+                secondSpaceship.Sprite.Source = spaceship.thrusters.images[1];
+            
+            
+            if (asteroids.Count == 0&&secondSpaceship.astAmount==0)
             {
                 canvas.Children.Clear();
                 spaceship.lives = 3;
@@ -212,9 +250,10 @@ namespace Asteroids_Rebirth
             }
             for (int i = 0; i < asteroids.Count; i++)
                 asteroids[i].physics();
+            int hitAsteroid = -1;
             if (spaceship.alive && !spaceship.transparent)
             {
-                int hitAsteroid = colision(spaceship.colision.colisionpoints.ToArray(), asteroids);
+                hitAsteroid = colision(spaceship.colision.colisionpoints.ToArray(), asteroids);
                 if (hitAsteroid >= 0)
                 {
                     spaceship.lastHitAsteroidNumber = hitAsteroid;
@@ -224,9 +263,10 @@ namespace Asteroids_Rebirth
                 };
 
             }
-            if (spaceship.laserIsEnabled)
+
+            if (hitAsteroid == -1 && spaceship.laserIsEnabled)
             {
-                int hitAsteroid = colision(new Point[] { new Point(spaceship.laser.X1, spaceship.laser.Y1), new Point(spaceship.laser.X2, spaceship.laser.Y2) }, asteroids);
+                hitAsteroid = colision(new Point[] { new Point(spaceship.laser.X1, spaceship.laser.Y1), new Point(spaceship.laser.X2, spaceship.laser.Y2) }, asteroids);
                 if (hitAsteroid >= 0)
                 {
                     spaceship.lastHitAsteroidNumber = hitAsteroid;
